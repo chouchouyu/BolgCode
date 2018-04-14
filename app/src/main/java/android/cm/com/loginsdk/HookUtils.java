@@ -3,6 +3,9 @@ package android.cm.com.loginsdk;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import java.lang.reflect.Field;
@@ -13,7 +16,7 @@ import java.lang.reflect.Proxy;
 public class HookUtils {
     private Context context;
 
-    public HookUtils(Context context) {
+    public void hookStartActivity(Context context) {
         this.context = context;
         try {
             //根据变量名m获得字段
@@ -81,4 +84,96 @@ public class HookUtils {
             return method.invoke(iActivityManagerObject, args);
         }
     }
+
+    //还原Activity
+    public void hookHookMh() {
+        try {
+            Class<?> forName = Class.forName("android.app.ActivityThread");
+            Field currentActivityThreadField = forName.getDeclaredField("sCurrentActivityThread");
+            currentActivityThreadField.setAccessible(true);
+//            还原系统的ActivityTread   mH
+            Object activityThreadObj = currentActivityThreadField.get(null);
+
+            Field handlerField = forName.getDeclaredField("mH");
+            handlerField.setAccessible(true);
+//            hook点找到了
+            Handler mH = (Handler) handlerField.get(activityThreadObj);
+
+            Field callbackField = Handler.class.getDeclaredField("mCallback");
+
+            callbackField.setAccessible(true);
+
+            callbackField.set(mH, new ActivityMH(mH));
+
+        } catch (
+                ClassNotFoundException e)
+
+        {
+            e.printStackTrace();
+        } catch (
+                NoSuchFieldException e)
+
+        {
+            e.printStackTrace();
+        } catch (
+                IllegalAccessException e)
+
+        {
+            e.printStackTrace();
+        }
+    }
+
+    class ActivityMH implements Handler.Callback {
+        private Handler mH;
+
+        public ActivityMH(Handler mH) {
+            this.mH = mH;
+        }
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            //LAUNCH_ACTIVITY ==100 即将要加载一个activity了
+            if (msg.what == 100) {
+//加工 --完  一定丢给系统  secondActivity  -hook->proxyActivity---hook->    secondeActivtiy
+                handleLuachActivity(msg);
+            }
+//做了真正的跳转
+            mH.handleMessage(msg);
+            return true;
+        }
+
+        private void handleLuachActivity(Message msg) {
+            //            还原
+            Object obj = msg.obj;
+            try {
+                Field intentField = obj.getClass().getDeclaredField("intent");
+                intentField.setAccessible(true);
+                //  ProxyActivity   2
+                Intent realyIntent = (Intent) intentField.get(obj);
+
+//               sconedActivity  1
+                Intent oldIntent = realyIntent.getParcelableExtra("oldIntent");
+                SharedPreferences share = context.getSharedPreferences("david",
+                        Context.MODE_PRIVATE);
+                if (oldIntent != null) {
+                    //代表之前的intent
+                    if (share.getBoolean("login", false)) {
+                        //不需要登录
+//                      登录  还原  把原有的意图    放到realyIntent
+                        realyIntent.setComponent(oldIntent.getComponent());
+                    } else {
+                        //跳转登录
+                        ComponentName componentName = new ComponentName(context, LoginActivity.class);
+                        realyIntent.putExtra("extraIntent", oldIntent.getComponent()
+                                .getClassName());
+                        realyIntent.setComponent(componentName);
+                    }
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
+

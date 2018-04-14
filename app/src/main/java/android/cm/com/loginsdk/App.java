@@ -7,6 +7,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        HookUtils hook = new HookUtils(this);
+        HookUtils hook = new HookUtils();
+        hook.hookStartActivity(this);
+        hook.hookHookMh();
     }
 }
