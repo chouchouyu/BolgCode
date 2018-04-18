@@ -8,3 +8,6 @@ https://blog.csdn.net/u012341052/article/details/71191409
 https://blog.csdn.net/l2show/article/details/46992495
 
 //retrofit 动态代理
+
+
+相关的 博客https://www.jianshu.com/p/69bfbda302df
