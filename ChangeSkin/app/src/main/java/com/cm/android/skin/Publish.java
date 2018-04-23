@@ -2,6 +2,9 @@ package com.cm.android.skin;
 
 import java.util.Observable;
 
+/**
+ * 继承java.util.Observable的通知者
+ */
 public class Publish extends Observable {
     public String getData() {
         return data;
