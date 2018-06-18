@@ -28,23 +28,21 @@ public class JavaBeanSerializer implements ObjectSerializer {
     @Override
     public void serialzer(JsonConfig config, StringBuilder out, Object object) {
         out.append("{");
-
-        int i = 0;
+        boolean lastEmpty = false;
         for (FieldSerializer fieldSerializer : fieldSerializers) {
-            if (i != 0) {
-                out.append(",");
-            }
+
             //"name":"testname" 、 "age":100
             // 如果遇到属性没有值 (null) 则返回 ""
             String serializer = fieldSerializer.serializer(config, object);
-            out.append(serializer);
-            if (serializer.isEmpty()) {
-                i = 1;
-            } else {
-                i = 0;
+            if (lastEmpty && !serializer.isEmpty()) {
+                out.append(",");
             }
-            out.append("}");
+            if (!lastEmpty) {
+                lastEmpty = !serializer.isEmpty();
+            }
+            out.append(serializer);
         }
+        out.append("}");
     }
 
 

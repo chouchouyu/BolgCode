@@ -131,11 +131,11 @@ public class ExampleUnitTest {
 
     @Test
     public void addition_isCorrect4() throws Exception {
-//        List<List<Child>> childLists = new ArrayList<>();
+        List<List<Child>> childLists = new ArrayList<>();
         List<Child> child1 = new ArrayList<>();
         child1.add(new Child("T1", 100));
         child1.add(new Child("T2", 200));
-//        childLists.add(child1);
+        childLists.add(child1);
         List<Child> child2 = new ArrayList<>();
         Child t3 = new Child("T3", 300);
         t3.childs = new ArrayList<>();
@@ -143,11 +143,11 @@ public class ExampleUnitTest {
         t3.childs.add(new Child("T3_2", 3200));
         child2.add(t3);
         child2.add(new Child("T4", 400));
-//        childLists.add(child2);
+        childLists.add(child2);
 
 
 
-        String s = JSON.toJSONString(child1);
+        String s = JSON.toJSONString(childLists);
         System.out.println(s);
 
         Object object = com.alibaba.fastjson.JSON.parseObject(s, new com.alibaba.fastjson.TypeReference<List<List<Child>>>() {
