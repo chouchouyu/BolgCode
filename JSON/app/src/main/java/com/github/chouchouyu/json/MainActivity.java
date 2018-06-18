@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.e(TAG, "||-----------------------------");
 
-        child = JSON.parse(json, Child.class);
+//        child = JSON.parse(json, Child.class);
     }
 
     public void testFast(View view) {

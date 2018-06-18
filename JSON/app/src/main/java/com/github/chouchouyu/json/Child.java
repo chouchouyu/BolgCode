@@ -33,7 +33,6 @@ import java.util.List;
 
 @JSONType(typeKey = "Parent")
 class Parent {
-
     String name;
 
     public Parent() {
@@ -47,21 +46,20 @@ class Parent {
         return name;
     }
 
+
     public void setName(String name) {
         this.name = name;
     }
-
-
 }
 
 
 /**
+ *
  * 不序列化 c_name
  */
 @JSONType(ignores = {"name"}, orders = {"list", "age", "childs", "name"}, typeName = "Child")
 public class Child extends Parent {
     private int age;
-
     public List<String> list;
 
     public List<Child> childs;
@@ -72,13 +70,11 @@ public class Child extends Parent {
 
     /**
      * 指定FastJson反序列化构造函数
-     *
      * @param name
      * @param age
      */
     @JSONCreator
-    public Child(@JSONField(name = "name") String name
-            , @JSONField(name = "age") int age) {
+    public Child(@JSONField(name = "name") String name, @JSONField(name = "age") int age) {
         super(name);
         this.age = age;
         list = new ArrayList<>();
@@ -86,8 +82,8 @@ public class Child extends Parent {
         list.add("2");
     }
 
-    public int getAge() {
-        return age;
+    public int getTest() {
+        return 1;
     }
 
     //非公有属性需要有
@@ -95,12 +91,19 @@ public class Child extends Parent {
         this.age = age;
     }
 
+    public int getAge() {
+        return age;
+    }
+
     @Override
     public String toString() {
         return "Child{" +
-                "age=" + age +
+                "name='" + name + '\'' +
+                ", age=" + age +
                 ", list=" + list +
                 ", childs=" + childs +
                 '}';
     }
 }
+
+

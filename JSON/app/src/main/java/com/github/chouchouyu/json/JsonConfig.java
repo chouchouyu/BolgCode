@@ -1,8 +1,12 @@
 package com.github.chouchouyu.json;
 
-import com.alibaba.fastjson.serializer.ObjectSerializer;
+
+import com.github.chouchouyu.json.Serializer.JavaBeanSerializer;
+import com.github.chouchouyu.json.Serializer.ListSerializer;
+import com.github.chouchouyu.json.Serializer.ObjectSerializer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,9 +14,11 @@ import java.util.Map;
  */
 
 public class JsonConfig {
-    public final static JsonConfig globalInstance = new JsonConfig();
 
-    public final static JsonConfig getGlobalInstance() {
+    private final static JsonConfig globalInstance = new JsonConfig();
+
+    //序列化器缓存
+    public static JsonConfig getGlobalInstance() {
         return globalInstance;
     }
 
@@ -21,8 +27,23 @@ public class JsonConfig {
      */
     public Map<Class, ObjectSerializer> serializerMap = new HashMap<>();
 
+
     public ObjectSerializer getSerializer(Class<?> clazz) {
-        ObjectSerializer   serializerMap.get(clazz);
+        ObjectSerializer objectSerializer = serializerMap.get(clazz);
+        if (null != objectSerializer) {
+            return objectSerializer;
+        }else if (List.class.isAssignableFrom(clazz)) {
+            objectSerializer = ListSerializer.instance;
+        } else if (Map.class.isAssignableFrom(clazz)) {
+            throw new RuntimeException("暂不支持Map序列化");
+        } else if (clazz.isArray()) {
+            throw new RuntimeException("暂不支持数组序列化");
+        } else {
+            objectSerializer = new JavaBeanSerializer(clazz);
+        }
+
+        serializerMap.put(clazz, objectSerializer);
+        return objectSerializer;
     }
 
 }
