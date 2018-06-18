@@ -147,7 +147,7 @@ public class ExampleUnitTest {
 
 
 
-        String s = JSON.toJSONString(childLists);
+        String s = JSON.toJSONString(child1);
         System.out.println(s);
 
         Object object = com.alibaba.fastjson.JSON.parseObject(s, new com.alibaba.fastjson.TypeReference<List<List<Child>>>() {
