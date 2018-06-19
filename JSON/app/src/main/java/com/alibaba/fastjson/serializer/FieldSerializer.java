@@ -27,15 +27,15 @@ import com.alibaba.fastjson.util.FieldInfo;
  * @author wenshao[szujobs@hotmail.com]
  */
 public final class FieldSerializer implements Comparable<FieldSerializer> {
-    public final FieldInfo  fieldInfo;
+    public final FieldInfo fieldInfo;
     protected final boolean writeNull;
-    protected final int     features;
-    protected final String  format;
+    protected final int features;
+    protected final String format;
     protected char[] name_chars;
-    
+
     private RuntimeSerializerInfo runtimeInfo;
-    
-    public FieldSerializer(FieldInfo fieldInfo){
+
+    public FieldSerializer(FieldInfo fieldInfo) {
         this.fieldInfo = fieldInfo;
 
         boolean writeNull = false;
@@ -47,14 +47,14 @@ public final class FieldSerializer implements Comparable<FieldSerializer> {
                     writeNull = true;
                 }
             }
-            
+
             format = annotation.format();
 
             format = format.trim();
             if (format.length() == 0) {
                 format = null;
             }
-            
+
             features = SerializerFeature.of(annotation.serialzeFeatures());
         } else {
             features = 0;
@@ -73,9 +73,9 @@ public final class FieldSerializer implements Comparable<FieldSerializer> {
 
     public void writePrefix(JSONSerializer serializer) throws IOException {
         SerializeWriter out = serializer.out;
-        
+
         final int featurs = out.features;
-        
+
         if ((featurs & SerializerFeature.QuoteFieldNames.mask) != 0) {
             if ((featurs & SerializerFeature.UseSingleQuotes.mask) != 0) {
                 out.writeFieldName(fieldInfo.name, true);
@@ -92,11 +92,11 @@ public final class FieldSerializer implements Comparable<FieldSerializer> {
             return fieldInfo.get(object);
         } catch (Exception ex) {
             Member member = fieldInfo.method != null ? //
-                fieldInfo.method //
-                : fieldInfo.field;
-            
+                    fieldInfo.method //
+                    : fieldInfo.field;
+
             String qualifiedName = member.getDeclaringClass().getName() + "." + member.getName();
-            
+
             throw new JSONException("get property error。 " + qualifiedName, ex);
         }
     }
@@ -106,7 +106,6 @@ public final class FieldSerializer implements Comparable<FieldSerializer> {
             serializer.writeWithFormat(propertyValue, format);
             return;
         }
-
         if (runtimeInfo == null) {
 
             Class<?> runtimeFieldClass;
@@ -115,13 +114,14 @@ public final class FieldSerializer implements Comparable<FieldSerializer> {
             } else {
                 runtimeFieldClass = propertyValue.getClass();
             }
-
+            //TODO 当前类型对应的序列化器
             ObjectSerializer fieldSerializer = serializer.config.get(runtimeFieldClass);
             runtimeInfo = new RuntimeSerializerInfo(fieldSerializer, runtimeFieldClass);
         }
-        
+
         final RuntimeSerializerInfo runtimeInfo = this.runtimeInfo;
 
+        //TODO 对没有值的key执行写入value的操作
         if (propertyValue == null) {
             if ((features & SerializerFeature.WriteNullNumberAsZero.mask) != 0 // 
                     && Number.class.isAssignableFrom(runtimeInfo.runtimeFieldClass)) {
@@ -137,31 +137,33 @@ public final class FieldSerializer implements Comparable<FieldSerializer> {
                 return;
             }
 
-            runtimeInfo.fieldSerializer.write(serializer, null, fieldInfo.name, runtimeInfo.runtimeFieldClass);
+            runtimeInfo.fieldSerializer.write(serializer, null, fieldInfo.name, runtimeInfo
+                    .runtimeFieldClass);
             return;
         }
-
+        //TODO 获得 如List.class 则调用ListSerializer的 write
         Class<?> valueClass = propertyValue.getClass();
         if (valueClass == runtimeInfo.runtimeFieldClass) {
-            runtimeInfo.fieldSerializer.write(serializer, propertyValue, fieldInfo.name, fieldInfo.fieldType);
+            runtimeInfo.fieldSerializer.write(serializer, propertyValue, fieldInfo.name,
+                    fieldInfo.fieldType);
             return;
         }
 
         ObjectSerializer valueSerializer = serializer.config.get(valueClass);
         valueSerializer.write(serializer, propertyValue, fieldInfo.name, fieldInfo.fieldType);
     }
-    
+
     static class RuntimeSerializerInfo {
 
         ObjectSerializer fieldSerializer;
-        Class<?>         runtimeFieldClass;
+        Class<?> runtimeFieldClass;
 
-        public RuntimeSerializerInfo(ObjectSerializer fieldSerializer, Class<?> runtimeFieldClass){
+        public RuntimeSerializerInfo(ObjectSerializer fieldSerializer, Class<?> runtimeFieldClass) {
             this.fieldSerializer = fieldSerializer;
             this.runtimeFieldClass = runtimeFieldClass;
         }
     }
-    
+
     public int compareTo(FieldSerializer o) {
         return this.fieldInfo.compareTo(o.fieldInfo);
     }

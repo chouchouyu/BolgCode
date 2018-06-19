@@ -1,4 +1,4 @@
-package com.github.chouchouyu.json.Serializer;
+package com.github.chouchouyu.json.serializer;
 
 
 import com.github.chouchouyu.json.JsonConfig;

@@ -2,6 +2,7 @@ package com.github.chouchouyu.json;
 
 
 import com.alibaba.fastjson.TypeReference;
+import com.github.chouchouyu.json.serializer.FieldSerializer;
 
 import org.junit.Test;
 
@@ -94,11 +95,18 @@ public class ExampleUnitTest {
 
     @Test
     public void addition_isCorrect2() throws Exception {
+        System.out.println("---------------pareserAllFieldToCache-------------------");
         Map<String, Field> fieldCacheMap = new HashMap<>();
         Utils.pareserAllFieldToCache(fieldCacheMap, Child.class);
         for (Map.Entry<String, Field> stringFieldEntry : fieldCacheMap.entrySet()) {
             System.out.println(stringFieldEntry.getKey() + ":" + stringFieldEntry.getValue().getName());
         }
+        System.out.println("---------------computeGetters-------------------");
+        List<FieldSerializer> fieldSerializers = Utils.computeGetters(Child.class, fieldCacheMap);
+        for (FieldSerializer fieldSerializer : fieldSerializers) {
+            System.out.println(fieldSerializer.getFieldInfo().name);
+        }
+
     }
 
     @Test
@@ -146,8 +154,7 @@ public class ExampleUnitTest {
         childLists.add(child2);
 
 
-
-        String s = JSON.toJSONString(child1);
+        String s = JSON.toJSONString(childLists);
         System.out.println(s);
 
         Object object = com.alibaba.fastjson.JSON.parseObject(s, new com.alibaba.fastjson.TypeReference<List<List<Child>>>() {
@@ -155,6 +162,43 @@ public class ExampleUnitTest {
         System.out.println(object);
 
 
+    }
 
+    public class B {
+        A a;
+
+        public A getA() {
+            return a;
+        }
+
+        public void setA(A a) {
+            this.a = a;
+        }
+    }
+
+    public class A {
+        B b;
+
+        public void setB(B b) {
+            this.b = b;
+        }
+
+        public B getB() {
+            return b;
+        }
+    }
+
+    @Test
+    public void addition_isCorrect5() throws Exception {
+        A a = new A();
+        B b = new B();
+        a.setB(b);
+        b.setA(a);
+
+        String s = JSON.toJSONString(a);
+        System.out.println("自己写的库：" + s);
+        //{"b":{"a":{"$ref":".."}}}
+        String s1 = com.alibaba.fastjson.JSON.toJSONString(a);
+        System.out.println("fastjson：" + s1);
     }
 }

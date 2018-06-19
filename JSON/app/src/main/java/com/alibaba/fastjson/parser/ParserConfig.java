@@ -72,7 +72,7 @@ public class ParserConfig {
 
     public ParserConfig(){
         deserializers.put(SimpleDateFormat.class, MiscCodec.instance);
-        deserializers.put(java.util.Date.class, DateCodec.instance);
+        deserializers.put(Date.class, DateCodec.instance);
         deserializers.put(Calendar.class, DateCodec.instance);
 
         deserializers.put(Map.class, MapDeserializer.instance);
@@ -288,7 +288,7 @@ public class ParserConfig {
                  || clazz == BigInteger.class //
                  || clazz == BigDecimal.class //
                  || clazz == String.class //
-                 || clazz == java.util.Date.class //
+                 || clazz == Date.class //
                  || clazz == java.sql.Date.class //
                  || clazz == java.sql.Time.class //
                  || clazz == java.sql.Timestamp.class //
@@ -337,7 +337,7 @@ public class ParserConfig {
 
         if (clazz != null
             && expectClass != null
-            && clazz != java.util.HashMap.class
+            && clazz != HashMap.class
             && !expectClass.isAssignableFrom(clazz))
         {
             throw new JSONException("type not match. " + typeName + " -> " + expectClass.getName());

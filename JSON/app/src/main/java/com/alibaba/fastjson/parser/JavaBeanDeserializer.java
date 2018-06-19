@@ -270,9 +270,9 @@ public class JavaBeanDeserializer implements ObjectDeserializer {
                     } else {
                         lexer.nextToken();
                     }
-                } else if (fieldClass == java.util.Date.class && lexer.ch == '1') {
+                } else if (fieldClass == Date.class && lexer.ch == '1') {
                     long longValue = lexer.scanLongValue();
-                    fieldDeser.setValue(object, new java.util.Date(longValue));
+                    fieldDeser.setValue(object, new Date(longValue));
                     
                     if (lexer.ch == ',') {
                         int index = ++lexer.bp;

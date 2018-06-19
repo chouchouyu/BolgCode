@@ -19,15 +19,19 @@ import java.lang.reflect.Type;
 
 /**
  * for concurrent IdentityHashMap
- * 
+ * <p>
+ * <p>
+ * TODO 使用==判断key是否相等，避免equals操作，本身key被定义为Type,也不需要equals
+ * TODO 没有remove也不能遍历,没有volatile也没有lock,在并发下会造成缓存丢失,但是速度快
+ *
  * @author wenshao[szujobs@hotmail.com]
  */
 @SuppressWarnings("unchecked")
 public class IdentityHashMap<V> {
     private final Entry<V>[] buckets;
-    private final int        indexMask;
+    private final int indexMask;
 
-    public IdentityHashMap(int tableSize){
+    public IdentityHashMap(int tableSize) {
         this.indexMask = tableSize - 1;
         this.buckets = new Entry[tableSize];
     }
@@ -86,13 +90,13 @@ public class IdentityHashMap<V> {
     }
 
     protected static final class Entry<V> {
-        public final int      hashCode;
-        public final Type     key;
-        public V              value;
+        public final int hashCode;
+        public final Type key;
+        public V value;
 
         public final Entry<V> next;
 
-        public Entry(Type key, V value, int hash, Entry<V> next){
+        public Entry(Type key, V value, int hash, Entry<V> next) {
             this.key = key;
             this.value = value;
             this.next = next;

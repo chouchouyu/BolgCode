@@ -35,42 +35,44 @@ import com.alibaba.fastjson.JSONException;
  */
 public class JSONSerializer {
 
-    public final SerializeConfig                     config;
+    public final SerializeConfig config;
 
-    public final SerializeWriter                     out;
+    public final SerializeWriter out;
 
-    protected List<BeforeFilter>                     beforeFilters      = null;
-    protected List<AfterFilter>                      afterFilters       = null;
-    protected List<PropertyFilter>                   propertyFilters    = null;
-    protected List<ValueFilter>                      valueFilters       = null;
-    protected List<NameFilter>                       nameFilters        = null;
-    protected List<PropertyPreFilter>                propertyPreFilters = null;
+    protected List<BeforeFilter> beforeFilters = null;
+    protected List<AfterFilter> afterFilters = null;
+    protected List<PropertyFilter> propertyFilters = null;
+    protected List<ValueFilter> valueFilters = null;
+    protected List<NameFilter> nameFilters = null;
+    protected List<PropertyPreFilter> propertyPreFilters = null;
 
-    private int                                      indentCount        = 0;
+    private int indentCount = 0;
 
-    private String                                   dateFormatPattern;
-    private DateFormat                               dateFormat;
+    private String dateFormatPattern;
+    private DateFormat dateFormat;
 
-    protected IdentityHashMap<Object, SerialContext> references         = null;
-    protected SerialContext                          context;
+    protected IdentityHashMap<Object, SerialContext> references = null;
+    protected SerialContext context;
 
-    public TimeZone                                  timeZone           = JSON.defaultTimeZone;
-    public Locale                                    locale             = JSON.defaultLocale;
+    public TimeZone timeZone = JSON.defaultTimeZone;
+    public Locale locale = JSON.defaultLocale;
 
-    public JSONSerializer(){
-        this(new SerializeWriter((Writer) null, JSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.EMPTY),
-             SerializeConfig.globalInstance);
+    public JSONSerializer() {
+        this(new SerializeWriter((Writer) null, JSON.DEFAULT_GENERATE_FEATURE, SerializerFeature
+                        .EMPTY),
+                SerializeConfig.globalInstance);
     }
 
-    public JSONSerializer(SerializeWriter out){
+    public JSONSerializer(SerializeWriter out) {
         this(out, SerializeConfig.globalInstance);
     }
 
-    public JSONSerializer(SerializeConfig config){
-        this(new SerializeWriter((Writer) null, JSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.EMPTY), config);
+    public JSONSerializer(SerializeConfig config) {
+        this(new SerializeWriter((Writer) null, JSON.DEFAULT_GENERATE_FEATURE, SerializerFeature
+                .EMPTY), config);
     }
 
-    public JSONSerializer(SerializeWriter out, SerializeConfig config){
+    public JSONSerializer(SerializeWriter out, SerializeConfig config) {
         this.out = out;
         this.config = config;
         this.timeZone = JSON.defaultTimeZone;
@@ -137,7 +139,7 @@ public class JSONSerializer {
         }
 
         SerialContext rootContext = context;
-        for (;;) {
+        for (; ; ) {
             if (rootContext.parent == null) {
                 break;
             }
@@ -232,7 +234,7 @@ public class JSONSerializer {
 
     public static final void write(Writer out, Object object) {
         SerializeWriter writer = new SerializeWriter((Writer) null, JSON.DEFAULT_GENERATE_FEATURE,
-                                                     SerializerFeature.EMPTY);
+                SerializerFeature.EMPTY);
         try {
             JSONSerializer serializer = new JSONSerializer(writer, SerializeConfig.globalInstance);
             serializer.write(object);
@@ -254,7 +256,7 @@ public class JSONSerializer {
             out.writeNull();
             return;
         }
-
+        //TODO 从集合中获得一个序列化器
         Class<?> clazz = object.getClass();
         ObjectSerializer writer = config.get(clazz);
 
@@ -277,7 +279,8 @@ public class JSONSerializer {
         write(value);
     }
 
-    public final void writeWithFieldName(Object object, Object fieldName, Type fieldType, int features) {
+    public final void writeWithFieldName(Object object, Object fieldName, Type fieldType, int
+            features) {
         try {
             if (object == null) {
                 out.writeNull();
@@ -329,7 +332,8 @@ public class JSONSerializer {
         this.out.close();
     }
 
-    public static Object processValue(JSONSerializer serializer, Object object, Object key, Object propertyValue) {
+    public static Object processValue(JSONSerializer serializer, Object object, Object key,
+                                      Object propertyValue) {
         List<ValueFilter> valueFilters = serializer.valueFilters;
         if (valueFilters != null) {
             if (key != null && !(key instanceof String)) {
@@ -400,7 +404,7 @@ public class JSONSerializer {
     public SerializeWriter getWriter() {
         return out;
     }
-    
+
 
     public SerialContext getContext() {
         return context;

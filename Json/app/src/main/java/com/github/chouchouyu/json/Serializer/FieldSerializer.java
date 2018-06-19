@@ -1,8 +1,7 @@
-package com.github.chouchouyu.json.Serializer;
+package com.github.chouchouyu.json.serializer;
 
 import com.github.chouchouyu.json.FieldInfo;
 import com.github.chouchouyu.json.JsonConfig;
-import com.github.chouchouyu.json.Serializer.ObjectSerializer;
 import com.github.chouchouyu.json.Utils;
 
 /**
@@ -44,5 +43,7 @@ public class FieldSerializer {
         return stringBuilder.toString();
     }
 
-
+    public FieldInfo getFieldInfo() {
+        return fieldInfo;
+    }
 }

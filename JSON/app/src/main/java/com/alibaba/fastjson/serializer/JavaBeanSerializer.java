@@ -31,27 +31,28 @@ import com.alibaba.fastjson.util.TypeUtils;
  * @author wenshao[szujobs@hotmail.com]
  */
 public class JavaBeanSerializer implements ObjectSerializer {
-    private static final char[]     true_chars = new char[] {'t', 'r', 'u', 'e'};
-    private static final char[]     false_chars = new char[] {'f', 'a', 'l', 's', 'e'};
-    
+    private static final char[] true_chars = new char[]{'t', 'r', 'u', 'e'};
+    private static final char[] false_chars = new char[]{'f', 'a', 'l', 's', 'e'};
+
     // serializers
     private final FieldSerializer[] getters;
     private final FieldSerializer[] sortedGetters;
-    
-    protected int                   features = 0;
-    
-    protected final String          typeName;
-    protected final String          typeKey;
+
+    protected int features = 0;
+
+    protected final String typeName;
+    protected final String typeKey;
 
     public JavaBeanSerializer(Class<?> clazz) {
         this(clazz, (PropertyNamingStrategy) null);
     }
-    
-    public JavaBeanSerializer(Class<?> clazz, PropertyNamingStrategy propertyNamingStrategy){
-        this(clazz, clazz.getModifiers(), (Map<String, String>) null, false, true, true, true, propertyNamingStrategy);
+
+    public JavaBeanSerializer(Class<?> clazz, PropertyNamingStrategy propertyNamingStrategy) {
+        this(clazz, clazz.getModifiers(), (Map<String, String>) null, false, true, true, true,
+                propertyNamingStrategy);
     }
 
-    public JavaBeanSerializer(Class<?> clazz, String... aliasList){
+    public JavaBeanSerializer(Class<?> clazz, String... aliasList) {
         this(clazz, clazz.getModifiers(), map(aliasList), false, true, true, true, null);
     }
 
@@ -65,7 +66,6 @@ public class JavaBeanSerializer implements ObjectSerializer {
     }
 
     /**
-     * @since 1.1.49.android
      * @param clazz
      * @param classModifiers
      * @param aliasMap
@@ -73,6 +73,7 @@ public class JavaBeanSerializer implements ObjectSerializer {
      * @param jsonTypeSupport
      * @param jsonFieldSupport
      * @param fieldGenericSupport
+     * @since 1.1.49.android
      */
     public JavaBeanSerializer(Class<?> clazz, // 
                               int classModifiers, //
@@ -82,22 +83,23 @@ public class JavaBeanSerializer implements ObjectSerializer {
                               boolean jsonFieldSupport, //
                               boolean fieldGenericSupport, //
                               PropertyNamingStrategy propertyNamingStrategy
-                              ){
+    ) {
+        //TODO 获得注解
         JSONType jsonType = jsonTypeSupport //
-            ? clazz.getAnnotation(JSONType.class) //
-            : null;
+                ? clazz.getAnnotation(JSONType.class) //
+                : null;
 
         String typeName = null, typeKey = null;
         if (jsonType != null) {
             features = SerializerFeature.of(jsonType.serialzeFeatures());
-            
+
             typeName = jsonType.typeName();
             if (typeName.length() == 0) {
                 typeName = null;
             } else {
                 for (Class<?> supperClass = clazz.getSuperclass()
                      ; supperClass != null && supperClass != Object.class
-                     ; supperClass = supperClass.getSuperclass()) {
+                        ; supperClass = supperClass.getSuperclass()) {
                     JSONType superJsonType = supperClass.getAnnotation(JSONType.class);
                     if (superJsonType == null) {
                         break;
@@ -132,44 +134,45 @@ public class JavaBeanSerializer implements ObjectSerializer {
         }
         this.typeName = typeName;
         this.typeKey = typeKey;
-        
+
         {
+            //TODO 找到类中所有需要序列化的 函数、属性
             List<FieldInfo> fieldInfoList = TypeUtils.computeGetters(clazz, // 
-                                                                     classModifiers, //
-                                                                     fieldOnly, //
-                                                                     jsonType, // 
-                                                                     aliasMap, // 
-                                                                     false, // sorted = false
-                                                                     jsonFieldSupport, // 
-                                                                     fieldGenericSupport, //
-                                                                     propertyNamingStrategy);
+                    classModifiers, //
+                    fieldOnly, //
+                    jsonType, //
+                    aliasMap, //
+                    false, // sorted = false
+                    jsonFieldSupport, //
+                    fieldGenericSupport, //
+                    propertyNamingStrategy);
+            //TODO 封装成属性序列化器 FieldSerializer
             List<FieldSerializer> getterList = new ArrayList<FieldSerializer>();
 
             for (FieldInfo fieldInfo : fieldInfoList) {
                 FieldSerializer fieldDeser = new FieldSerializer(fieldInfo);
-                
+
                 getterList.add(fieldDeser);
             }
 
             getters = getterList.toArray(new FieldSerializer[getterList.size()]);
         }
-        
+        //TODO 排序后的 FieldSerializer 集合 默认按照ascii排序
         String[] orders = null;
-
         if (jsonType != null) {
             orders = jsonType.orders();
         }
-        
+
         if (orders != null && orders.length != 0) {
             List<FieldInfo> fieldInfoList = TypeUtils.computeGetters(clazz, //
-                                                                     classModifiers, //
-                                                                     fieldOnly, //
-                                                                     jsonType, //
-                                                                     aliasMap, //
-                                                                     true, // sorted = true
-                                                                     jsonFieldSupport, //
-                                                                     fieldGenericSupport, //
-                                                                     propertyNamingStrategy);
+                    classModifiers, //
+                    fieldOnly, //
+                    jsonType, //
+                    aliasMap, //
+                    true, // sorted = true
+                    jsonFieldSupport, //
+                    fieldGenericSupport, //
+                    propertyNamingStrategy);
             List<FieldSerializer> getterList = new ArrayList<FieldSerializer>();
 
             for (FieldInfo fieldInfo : fieldInfoList) {
@@ -177,21 +180,29 @@ public class JavaBeanSerializer implements ObjectSerializer {
                 getterList.add(fieldDeser);
             }
 
-          sortedGetters = getterList.toArray(new FieldSerializer[getterList.size()]);
+            sortedGetters = getterList.toArray(new FieldSerializer[getterList.size()]);
         } else {
             FieldSerializer[] sortedGetters = new FieldSerializer[getters.length];
             System.arraycopy(getters, 0, sortedGetters, 0, getters.length);
             Arrays.sort(sortedGetters);
-            
+
             if (Arrays.equals(sortedGetters, getters)) {
-                this.sortedGetters = getters; 
+                this.sortedGetters = getters;
             } else {
                 this.sortedGetters = sortedGetters;
             }
         }
     }
 
-    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType) throws IOException {
+    /**
+     * @param serializer
+     * @param object
+     * @param fieldName
+     * @param fieldType
+     * @throws IOException
+     */
+    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType)
+            throws IOException {
         SerializeWriter out = serializer.out;
 
         if (object == null) {
@@ -200,21 +211,22 @@ public class JavaBeanSerializer implements ObjectSerializer {
         }
 
         if ((serializer.context == null //
-             || (serializer.context.features & SerializerFeature.DisableCircularReferenceDetect.mask) == 0) //
-            && serializer.references != null //
-            && serializer.references.containsKey(object)) {
+                || (serializer.context.features & SerializerFeature
+                .DisableCircularReferenceDetect.mask) == 0) //
+                && serializer.references != null //
+                && serializer.references.containsKey(object)) {
             serializer.writeReference(object);
             return;
         }
 
         final FieldSerializer[] getters;
-
+        //TODO 默认会使用排序的
         if ((out.features & SerializerFeature.SortField.mask) != 0) {
             getters = this.sortedGetters;
         } else {
             getters = this.getters;
         }
-
+        //TODO 序列化上下文(在复杂数据序列化时有用)
         SerialContext parent = serializer.context;
 //        serializer.setContext(parent, object, fieldName, features);
         if ((out.features & SerializerFeature.DisableCircularReferenceDetect.mask) == 0) {
@@ -226,15 +238,17 @@ public class JavaBeanSerializer implements ObjectSerializer {
         }
 
         boolean writeAsArray;
-        
+
         writeAsArray = (features & SerializerFeature.BeanToArray.mask) != 0 //
-                       || (out.features & SerializerFeature.BeanToArray.mask) != 0;
+                || (out.features & SerializerFeature.BeanToArray.mask) != 0;
 
         try {
             final char startSeperator = writeAsArray ? '[' : '{';
             final char endSeperator = writeAsArray ? ']' : '}';
             // out.write(startSeperator);
+
             {
+                //TODO 保证有足够的空间存储数据
                 int newcount = out.count + 1;
                 if (newcount > out.buf.length) {
                     if (out.writer == null) {
@@ -248,6 +262,7 @@ public class JavaBeanSerializer implements ObjectSerializer {
                 out.count = newcount;
             }
 
+            //TODO 格式化
             if (getters.length > 0 // 
                     && (out.features & SerializerFeature.PrettyFormat.mask) != 0) {
                 serializer.incrementIndent();
@@ -255,18 +270,21 @@ public class JavaBeanSerializer implements ObjectSerializer {
             }
 
             boolean commaFlag = false;
-            
-            boolean isWriteClassName; 
+
+            //TODO 需要写类名 typeKey:typeName
+            boolean isWriteClassName;
             isWriteClassName = (features & SerializerFeature.WriteClassName.mask) != 0 //
                     || ((out.features & SerializerFeature.WriteClassName.mask) != 0 // 
-                            && (fieldType != null || (out.features & SerializerFeature.NotWriteRootClassName.mask) == 0
-                            || (serializer.context != null && serializer.context.parent != null)))
-                    ;
+                    && (fieldType != null || (out.features & SerializerFeature
+                    .NotWriteRootClassName.mask) == 0
+                    || (serializer.context != null && serializer.context.parent != null)))
+            ;
 
             if (isWriteClassName) {
                 Class<?> objClass = object.getClass();
                 if (objClass != fieldType) {
-                    out.writeFieldName(typeKey != null ? typeKey : serializer.config.typeKey, false);
+                    out.writeFieldName(typeKey != null ? typeKey : serializer.config.typeKey,
+                            false);
                     String typeName = this.typeName;
                     if (typeName == null) {
                         typeName = object.getClass().getName();
@@ -277,7 +295,7 @@ public class JavaBeanSerializer implements ObjectSerializer {
             }
 
             char seperator = commaFlag ? ',' : '\0';
-
+            //TODO 过滤器 可以先定义序列化之前 操作序列化的object或者干别的事情
             char newSeperator = seperator;
             if (serializer.beforeFilters != null) {
                 for (BeforeFilter beforeFilter : serializer.beforeFilters) {
@@ -285,17 +303,21 @@ public class JavaBeanSerializer implements ObjectSerializer {
                 }
             }
             commaFlag = newSeperator == ',';
-            
-            final boolean directWritePrefix = (out.features & SerializerFeature.QuoteFieldNames.mask) != 0
+
+            //TODO 一系列过滤器
+            final boolean directWritePrefix = (out.features & SerializerFeature.QuoteFieldNames
+                    .mask) != 0
                     && (out.features & SerializerFeature.UseSingleQuotes.mask) == 0;
-            final boolean useSingleQuote = (out.features & SerializerFeature.UseSingleQuotes.mask) != 0;
-            final boolean notWriteDefaultValue = (out.features & SerializerFeature.NotWriteDefaultValue.mask) != 0;
+            final boolean useSingleQuote = (out.features & SerializerFeature.UseSingleQuotes
+                    .mask) != 0;
+            final boolean notWriteDefaultValue = (out.features & SerializerFeature
+                    .NotWriteDefaultValue.mask) != 0;
 
             final List<PropertyFilter> propertyFilters = serializer.propertyFilters;
             final List<NameFilter> nameFilters = serializer.nameFilters;
             final List<ValueFilter> valueFilters = serializer.valueFilters;
             final List<PropertyPreFilter> filters = serializer.propertyPreFilters;
-            
+
             for (int i = 0; i < getters.length; ++i) {
                 FieldSerializer fieldSerializer = getters[i];
                 FieldInfo fieldInfo = fieldSerializer.fieldInfo;
@@ -328,12 +350,12 @@ public class JavaBeanSerializer implements ObjectSerializer {
                 if (!applyName) {
                     continue;
                 }
-                
+
                 Object propertyValue = null;
                 int propertyValueInt = 0;
                 long propertyValueLong = 0L;
                 boolean propertyValueBoolean = false;
-                
+                //TODO 获得key对应的value
                 boolean propertyValueGot = false;
                 boolean valueGot = false;
                 if (fieldInfo.fieldAccess) {
@@ -370,7 +392,7 @@ public class JavaBeanSerializer implements ObjectSerializer {
                                 propertyValueGot = true;
                             }
                         }
-                        
+
                         for (PropertyFilter propertyFilter : propertyFilters) {
                             if (!propertyFilter.apply(object, fieldInfoName, propertyValue)) {
                                 apply = false;
@@ -379,7 +401,7 @@ public class JavaBeanSerializer implements ObjectSerializer {
                         }
                     }
                 }
-                
+
                 if (!apply) {
                     continue;
                 }
@@ -399,7 +421,7 @@ public class JavaBeanSerializer implements ObjectSerializer {
                                 propertyValueGot = true;
                             }
                         }
-                        
+
                         for (NameFilter nameFilter : nameFilters) {
                             key = nameFilter.process(object, key, propertyValue);
                         }
@@ -424,9 +446,10 @@ public class JavaBeanSerializer implements ObjectSerializer {
                                 propertyValueGot = true;
                             }
                         }
-                        
+
                         for (ValueFilter valueFilter : valueFilters) {
-                            propertyValue = valueFilter.process(object, fieldInfoName, propertyValue);
+                            propertyValue = valueFilter.process(object, fieldInfoName,
+                                    propertyValue);
                         }
                     }
                 }
@@ -437,40 +460,49 @@ public class JavaBeanSerializer implements ObjectSerializer {
                     if (fieldClass == Boolean.class) {
                         int defaultMask = SerializerFeature.WriteNullBooleanAsFalse.mask;
                         final int mask = defaultMask | SerializerFeature.WriteMapNullValue.mask;
-                        if ((!writeAsArray) && (serialzeFeatures & mask) == 0 && (out.features & mask) == 0) {
+                        if ((!writeAsArray) && (serialzeFeatures & mask) == 0 && (out.features &
+                                mask) == 0) {
                             continue;
-                        } else if ((serialzeFeatures & defaultMask) != 0 || (out.features & defaultMask) != 0) {
+                        } else if ((serialzeFeatures & defaultMask) != 0 || (out.features &
+                                defaultMask) != 0) {
                             propertyValue = false;
                         }
                     } else if (fieldClass == String.class) {
                         int defaultMask = SerializerFeature.WriteNullStringAsEmpty.mask;
                         final int mask = defaultMask | SerializerFeature.WriteMapNullValue.mask;
-                        if ((!writeAsArray) && (serialzeFeatures & mask) == 0 && (out.features & mask) == 0) {
+                        if ((!writeAsArray) && (serialzeFeatures & mask) == 0 && (out.features &
+                                mask) == 0) {
                             continue;
-                        } else if ((serialzeFeatures & defaultMask) != 0 || (out.features & defaultMask) != 0) {
+                        } else if ((serialzeFeatures & defaultMask) != 0 || (out.features &
+                                defaultMask) != 0) {
                             propertyValue = "";
                         }
                     } else if (Number.class.isAssignableFrom(fieldClass)) {
                         int defaultMask = SerializerFeature.WriteNullNumberAsZero.mask;
                         final int mask = defaultMask | SerializerFeature.WriteMapNullValue.mask;
-                        if ((!writeAsArray) && (serialzeFeatures & mask) == 0 && (out.features & mask) == 0) {
+                        if ((!writeAsArray) && (serialzeFeatures & mask) == 0 && (out.features &
+                                mask) == 0) {
                             continue;
-                        } else if ((serialzeFeatures & defaultMask) != 0 || (out.features & defaultMask) != 0) {
+                        } else if ((serialzeFeatures & defaultMask) != 0 || (out.features &
+                                defaultMask) != 0) {
                             propertyValue = 0;
                         }
                     } else if (Collection.class.isAssignableFrom(fieldClass)) {
                         int defaultMask = SerializerFeature.WriteNullListAsEmpty.mask;
                         final int mask = defaultMask | SerializerFeature.WriteMapNullValue.mask;
-                        if ((!writeAsArray) && (serialzeFeatures & mask) == 0 && (out.features & mask) == 0) {
+                        if ((!writeAsArray) && (serialzeFeatures & mask) == 0 && (out.features &
+                                mask) == 0) {
                             continue;
-                        } else if ((serialzeFeatures & defaultMask) != 0 || (out.features & defaultMask) != 0) {
+                        } else if ((serialzeFeatures & defaultMask) != 0 || (out.features &
+                                defaultMask) != 0) {
                             propertyValue = Collections.emptyList();
                         }
-                    } else if ((!writeAsArray) && (!fieldSerializer.writeNull) && !out.isEnabled(SerializerFeature.WriteMapNullValue)){
+                    } else if ((!writeAsArray) && (!fieldSerializer.writeNull) && !out.isEnabled
+                            (SerializerFeature.WriteMapNullValue)) {
                         continue;
                     }
                 }
-                
+                // TODO 没有获得对应的value 则不写这个key
                 if (propertyValueGot && propertyValue != null && notWriteDefaultValue) {
                     if ((fieldClass == byte.class // 
                             || fieldClass == short.class //
@@ -478,17 +510,17 @@ public class JavaBeanSerializer implements ObjectSerializer {
                             || fieldClass == long.class //
                             || fieldClass == float.class //
                             || fieldClass == double.class //
-                            ) //  
-                            && propertyValue instanceof Number 
-                            && ((Number)propertyValue).byteValue() == 0) {
+                    ) //
+                            && propertyValue instanceof Number
+                            && ((Number) propertyValue).byteValue() == 0) {
                         continue;
                     } else if (fieldClass == boolean.class // 
                             && propertyValue instanceof Boolean // 
-                            && !((Boolean)propertyValue).booleanValue()) {
+                            && !((Boolean) propertyValue).booleanValue()) {
                         continue;
                     }
                 }
-
+                //TODO 需要写一个 ,
                 if (commaFlag) {
                     //out.write(',');
                     {
@@ -508,14 +540,14 @@ public class JavaBeanSerializer implements ObjectSerializer {
                         serializer.println();
                     }
                 }
-
+                //TODO key和获得的属性(get Method名或者Field名)不对应 (过滤器或者注解修改了)
                 if (key != fieldInfoName) {
                     if (!writeAsArray) {
                         out.writeFieldName(key, true);
                     }
-                    
                     serializer.write(propertyValue);
                 } else if (originalValue != propertyValue) {
+                    //TODO value不对应 (过滤器修改)
                     if (!writeAsArray) {
                         fieldSerializer.writePrefix(serializer);
                     }
@@ -523,12 +555,12 @@ public class JavaBeanSerializer implements ObjectSerializer {
                 } else {
                     if (!writeAsArray) {
                         if (directWritePrefix) {
-                            // out.write(fieldInfo.name_chars, 0, fieldInfo.name_chars.length);
+                            //TODO 写入key: 如 "b":
                             {
                                 final char[] c = fieldSerializer.name_chars;
                                 int off = 0;
                                 int len = c.length;
-                                
+
                                 int newcount = out.count + len;
                                 if (newcount > out.buf.length) {
                                     if (out.writer == null) {
@@ -552,7 +584,11 @@ public class JavaBeanSerializer implements ObjectSerializer {
                             fieldSerializer.writePrefix(serializer);
                         }
                     }
-
+                    /**
+                     * TODO 对int long boolean String类型value在这里直接写入
+                     * TODO 其他类型 如javabean、list等在FieldSerializer操作
+                     */
+                    // TODO value属于int long boolean
                     if (valueGot && !propertyValueGot) {
                         if (fieldClass == int.class) {
                             // serializer.out.writeInt(propertyValueInt);
@@ -561,18 +597,21 @@ public class JavaBeanSerializer implements ObjectSerializer {
                                     out.write("-2147483648");
                                 } else {
                                     int size;
-                                    final int x = propertyValueInt < 0 ? -propertyValueInt : propertyValueInt;
-                                    for (int j = 0;; j++) {
+                                    //TODO 去掉负号
+                                    final int x = propertyValueInt < 0 ? -propertyValueInt :
+                                            propertyValueInt;
+                                    //TODO 获得size 小于9=1;小于99=2;......
+                                    for (int j = 0; ; j++) {
                                         if (x <= SerializeWriter.sizeTable[j]) {
                                             size = j + 1;
                                             break;
                                         }
                                     }
-
+                                    //TODO 再加上负号 1个大小
                                     if (propertyValueInt < 0) {
                                         size++;
                                     }
-    
+                                    //TODO 保证buf缓存能写入size个数据 然后写入
                                     boolean flushed = false;
                                     int newcount = out.count + size;
                                     if (newcount > out.buf.length) {
@@ -585,9 +624,10 @@ public class JavaBeanSerializer implements ObjectSerializer {
                                             flushed = true;
                                         }
                                     }
-    
+
                                     if (!flushed) {
-                                        SerializeWriter.getChars(propertyValueInt, newcount, out.buf);
+                                        SerializeWriter.getChars(propertyValueInt, newcount, out
+                                                .buf);
                                         out.count = newcount;
                                     }
                                 }
@@ -596,19 +636,22 @@ public class JavaBeanSerializer implements ObjectSerializer {
                             serializer.out.writeLong(propertyValueLong);
                         } else if (fieldClass == boolean.class) {
                             if (propertyValueBoolean) {
-                                serializer.out.write(true_chars, 0, true_chars.length);    
+                                serializer.out.write(true_chars, 0, true_chars.length);
                             } else {
                                 serializer.out.write(false_chars, 0, false_chars.length);
                             }
                         }
                     } else {
                         if (!writeAsArray) {
+                            //TODO 写入字符串
                             if (fieldClass == String.class) {
                                 int serialzeFeatures = fieldSerializer.features | features;
                                 if (propertyValue == null) {
 
-                                    if ((out.features & SerializerFeature.WriteNullStringAsEmpty.mask) != 0
-                                            || (serialzeFeatures & SerializerFeature.WriteNullStringAsEmpty.mask) != 0
+                                    if ((out.features & SerializerFeature.WriteNullStringAsEmpty
+                                            .mask) != 0
+                                            || (serialzeFeatures & SerializerFeature
+                                            .WriteNullStringAsEmpty.mask) != 0
                                             ) {
                                         out.writeString("");
                                     } else {
@@ -620,22 +663,27 @@ public class JavaBeanSerializer implements ObjectSerializer {
                                     if (useSingleQuote) {
                                         out.writeStringWithSingleQuote(propertyValueString);
                                     } else {
-                                        out.writeStringWithDoubleQuote(propertyValueString, (char) 0, true);
+                                        out.writeStringWithDoubleQuote(propertyValueString,
+                                                (char) 0, true);
                                     }
                                 }
                             } else {
+                                //TODO 枚举
                                 if (fieldInfo.isEnum) {
                                     if (propertyValue != null) {
-                                        if ((out.features & SerializerFeature.WriteEnumUsingToString.mask) != 0) {
+                                        if ((out.features & SerializerFeature
+                                                .WriteEnumUsingToString.mask) != 0) {
                                             Enum<?> e = (Enum<?>) propertyValue;
-                                            
+
                                             String name = e.toString();
-                                            boolean userSingleQuote = (out.features & SerializerFeature.UseSingleQuotes.mask) != 0;
-                                            
+                                            boolean userSingleQuote = (out.features &
+                                                    SerializerFeature.UseSingleQuotes.mask) != 0;
+
                                             if (userSingleQuote) {
                                                 out.writeStringWithSingleQuote(name);
                                             } else {
-                                                out.writeStringWithDoubleQuote(name, (char) 0, false);    
+                                                out.writeStringWithDoubleQuote(name, (char) 0,
+                                                        false);
                                             }
                                         } else {
                                             Enum<?> e = (Enum<?>) propertyValue;
@@ -645,6 +693,7 @@ public class JavaBeanSerializer implements ObjectSerializer {
                                         out.writeNull();
                                     }
                                 } else {
+                                    //TODO 写入 value
                                     fieldSerializer.writeValue(serializer, propertyValue);
                                 }
                             }
@@ -656,7 +705,10 @@ public class JavaBeanSerializer implements ObjectSerializer {
 
                 commaFlag = true;
             }
-            
+
+            /**
+             * TODO 扫尾 写入结束符
+             */
             // JSONSerializer.writeAfter(serializer, object, commaFlag ? ',' : '\0');
             if (serializer.afterFilters != null) {
                 char afterOperator = commaFlag ? ',' : '\0';
@@ -698,11 +750,11 @@ public class JavaBeanSerializer implements ObjectSerializer {
 
     public Map<String, Object> getFieldValuesMap(Object object) throws Exception {
         Map<String, Object> map = new LinkedHashMap<String, Object>(sortedGetters.length);
-        
+
         for (FieldSerializer getter : sortedGetters) {
             map.put(getter.fieldInfo.name, getter.getPropertyValue(object));
         }
-        
+
         return map;
     }
 }

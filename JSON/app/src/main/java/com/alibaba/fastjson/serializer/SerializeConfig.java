@@ -44,7 +44,6 @@ public class SerializeConfig {
     public final static SerializeConfig getGlobalInstance() {
         return globalInstance;
     }
-    
     private final IdentityHashMap<ObjectSerializer> serializers;
     protected String                                typeKey = JSON.DEFAULT_TYPE_KEY;
     public PropertyNamingStrategy                   propertyNamingStrategy;
@@ -172,6 +171,7 @@ public class SerializeConfig {
                 if (className.startsWith("android.net.Uri$")) {
                     writer = MiscCodec.instance;
                 } else {
+                    //TODO 普通对象创建 JavaBeanSerializer 序列化器
                     writer = new JavaBeanSerializer(clazz, propertyNamingStrategy);
                 }
                 serializers.put(clazz, writer);

@@ -53,7 +53,7 @@ public final class DateCodec implements ObjectSerializer, ObjectDeserializer {
 
         if ((out.features & SerializerFeature.WriteClassName.mask) != 0) {
             if (object.getClass() != fieldType) {
-                if (object.getClass() == java.util.Date.class) {
+                if (object.getClass() == Date.class) {
                     out.write("new Date(");
                     out.writeLong(((Date) object).getTime());
                     out.write(')');
@@ -268,10 +268,10 @@ public final class DateCodec implements ObjectSerializer, ObjectDeserializer {
             return null;
         }
 
-        if (val instanceof java.util.Date) {
+        if (val instanceof Date) {
             return (T) val;
         } else if (val instanceof Number) {
-            return (T) new java.util.Date(((Number) val).longValue());
+            return (T) new Date(((Number) val).longValue());
         } else if (val instanceof String) {
             String strVal = (String) val;
             if (strVal.length() == 0) {
@@ -313,7 +313,7 @@ public final class DateCodec implements ObjectSerializer, ObjectDeserializer {
             }
 
             long longVal = Long.parseLong(strVal);
-            return (T) new java.util.Date(longVal);
+            return (T) new Date(longVal);
         }
 
         throw new JSONException("parse error");

@@ -15,6 +15,8 @@
  */
 package com.alibaba.fastjson;
 
+import android.os.Handler;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
@@ -220,7 +222,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware {
         for (Feature feature : features) {
             featureValues |= feature.mask;
         }
-
+        //TODO 解析器
         DefaultJSONParser parser = new DefaultJSONParser(input, config, featureValues);
 
         if (processor instanceof ExtraTypeProvider) {
@@ -704,6 +706,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware {
     
     /**
      * @since 1.2.9, back port to 1.1.49.android
+     *
      * @return
      */
     public static String toJSONString(Object object, // 
@@ -715,8 +718,9 @@ public abstract class JSON implements JSONStreamAware, JSONAware {
         SerializeWriter out = new SerializeWriter(null, defaultFeatures, features);
 
         try {
+            // TODO: 2018/5/13 序列化器
             JSONSerializer serializer = new JSONSerializer(out, config);
-            for (com.alibaba.fastjson.serializer.SerializerFeature feature : features) {
+            for (SerializerFeature feature : features) {
                 serializer.config(feature, true);
             }
             
@@ -756,7 +760,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware {
                     }
                 }
             }
-
+            //TODO 序列化
             serializer.write(object);
 
             return out.toString();
