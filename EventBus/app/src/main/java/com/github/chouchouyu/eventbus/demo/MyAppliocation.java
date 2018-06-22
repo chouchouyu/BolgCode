@@ -1,4 +1,4 @@
-package com.github.chouchouyu.eventbus;
+package com.github.chouchouyu.eventbus.demo;
 
 import android.app.Application;
 import android.util.Log;

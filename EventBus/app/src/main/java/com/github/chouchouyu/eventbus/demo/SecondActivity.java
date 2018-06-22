@@ -1,8 +1,11 @@
-package com.github.chouchouyu.eventbus;
+package com.github.chouchouyu.eventbus.demo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.github.chouchouyu.eventbus.Eventbus;
+import com.github.chouchouyu.eventbus.R;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -13,6 +16,6 @@ public class SecondActivity extends AppCompatActivity {
     }
 
     public void send(View view) {
-//        Eventbus.getDefault().post(new Friend("david","1234"));
+        Eventbus.getDefault().post(new Friend("david","1234"));
     }
 }

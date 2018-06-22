@@ -3,6 +3,7 @@ package com.github.chouchouyu.eventbus;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static com.github.chouchouyu.eventbus.ThreadMode.Async;
 
 /**
  * Created by admin on 2018/6/20.
@@ -84,8 +87,49 @@ public class Eventbus {
             final Object activity = iterator.next();
             List<SubscribleMethod> list = cacheMap.get(activity);
             for (final SubscribleMethod subscribleMethod : list) {
-                if (subscribleMethod.get)
+                if (subscribleMethod.getEventType().isAssignableFrom(object.getClass())) {
+                    switch (subscribleMethod.getThreadMode()) {
+                        case Async:
+                            if (Looper.myLooper() == Looper.getMainLooper()) {
+                                executorService.execute(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        invoke(subscribleMethod, activity, object);
+
+                                    }
+                                });
+                            } else {
+                                invoke(subscribleMethod, activity, object);
+                            }
+                            break;
+                        case MainThread:
+                            if (Looper.myLooper() == Looper.getMainLooper()){
+                                invoke(subscribleMethod, activity, object);
+                            }else {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        invoke(subscribleMethod, activity, object);
+                                    }
+                                });
+                            }
+                            break;
+                        case PostThread:
+                            break;
+                    }
+                }
             }
+        }
+    }
+
+    private void invoke(SubscribleMethod subscribleMethod, Object activity, Object object) {
+        Method method = subscribleMethod.getMethod();
+        try {
+            method.invoke(activity,object);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
         }
     }
 

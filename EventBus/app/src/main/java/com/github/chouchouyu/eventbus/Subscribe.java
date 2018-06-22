@@ -9,5 +9,5 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Subscribe {
-    ThreadMode thredMode() default ThreadMode.PostThread;
+    ThreadMode threadMode() default ThreadMode.PostThread;
 }

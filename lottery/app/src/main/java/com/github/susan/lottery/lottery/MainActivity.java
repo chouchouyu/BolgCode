@@ -1,4 +1,4 @@
-package com.github.chouchouyu.eventbus;
+package com.github.susan.lottery.lottery;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
