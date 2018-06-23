@@ -9,7 +9,7 @@ import java.util.List;
  * Created by susan on 2018/6/18.
  */
 
-public class ListSerializer implements ObjectSerializer {
+public class ListSerializer implements com.github.chouchouyu.json.serializer.ObjectSerializer {
 
     public static ListSerializer instance = new ListSerializer();
 

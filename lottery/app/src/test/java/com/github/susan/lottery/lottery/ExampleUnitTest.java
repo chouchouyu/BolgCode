@@ -16,18 +16,41 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
 
-    Map<String, List<Example>> oneGame = new HashMap<>();
+    Map<String, List<SingleBet>> oneGame = new HashMap<>();
+
+    private void print(SingleBet aGame){
+        List<SingleBet> gameList = new ArrayList<>();
+        gameList.add(aGame);
+        oneGame.put("尼日利亚 vs 冰岛", gameList);
+        System.out.print(oneGame.toString());
+    }
+
 
     @Test
     public void addition_isCorrect() throws Exception {
-        initData();
+//        initVictoryBet();
+//        initScoreBet();
         assertEquals(4, 2 + 2);
     }
+    @Test
+    public void initVictoryBet() {
+        VictoryBet aGame = new VictoryBet(2.60, 3.00, 2.27);
+        print(aGame);
+    }
 
-    private void initData() {
-        Example aGame = new Example(GameType.NOREMAL, 2.60, 3.00, 2.27);
-        List<Example> gameList = new ArrayList<>();
-        gameList.add(aGame);
-        oneGame.put("尼日利亚 vs 冰岛", gameList);
+
+    /**
+     * 1:0 5.8
+     * 0:0 6.5
+     * 0:1 4.8
+     */
+    @Test
+    public void initScoreBet() {
+        Map<String, Double> scoreMap = new HashMap<>();
+        scoreMap.put("1:0", 5.8);
+        scoreMap.put("0:0", 6.5);
+        scoreMap.put("0:1", 4.8);
+        ScoreBet aGame = new ScoreBet(scoreMap);
+        print(aGame);
     }
 }
