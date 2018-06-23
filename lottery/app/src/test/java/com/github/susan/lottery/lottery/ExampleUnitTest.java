@@ -14,6 +14,7 @@ public class ExampleUnitTest {
 
     @Test
     public void addition_isCorrect() throws Exception {
+        System.out.print("!!!!!!!!"+System.currentTimeMillis());
         assertEquals(4, 2 + 2);
     }
 

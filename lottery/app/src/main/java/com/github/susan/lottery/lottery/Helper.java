@@ -52,7 +52,12 @@ public class Helper {
                         for (String sKey : m.keySet()) {
                             String v = m.get(sKey);
                             OneDayInfoBean oneDayInfoBean = JSON.parseObject(v, OneDayInfoBean.class);
+                            oneDayInfoBean.getLeague_name();
+                            oneDayInfoBean.getLeague_color(); //Array
+                            oneDayInfoBean.getHost_name_s();
+                            oneDayInfoBean.getGuest_name_s();
                             Log.w(TAG, oneDayInfoBean.getList().getSportteryNWDL().getOdds().toString());
+                            oneDayInfoBean.getList().getSportteryWDL().getOdds().toString();//让
                         }
 
 //                        Map<String, OneDayInfoBean> m = new HashMap<>();

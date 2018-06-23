@@ -3,6 +3,18 @@ package com.github.susan.lottery.lottery;
 import java.util.List;
 
 /**
+ * http://www.okooo.com/I/?method=lottery.spinfo.mixspinfo&LotteryType=SportteryNWDL%2CSportteryWDL
+ */
+
+/**
+ * http://www.okooo.com/I/?method=lottery.match.custom&pid=24&typeid=1&lotteryType=SportterySoccerMix&lotteryNo=2018-06-22%2C2018-06-23%2C2018-06-24%2C2018-06-25%2C2018-06-26&typeId=1&format=json
+ */
+/**
+ * https://apic.itou.com/api/match/selectmore?platform=koudai_mobile&_prt=https&ver=20180101000000&serial_no=6029&bet_id=264193&t=17601&_=1529767683998
+ *
+ */
+
+/**
  * https://apic.itou.com/api/match/selectlist?platform=koudai_mobile&_prt=https&ver=20180101000000&hide_more=1
  * Created by susan on 2018/6/22.
  */
