@@ -1,4 +1,5 @@
-package com.github.susan.lottery.lottery;
+package com.github.susan.lottery.lottery.logistic;
+
 
 import java.util.Map;
 

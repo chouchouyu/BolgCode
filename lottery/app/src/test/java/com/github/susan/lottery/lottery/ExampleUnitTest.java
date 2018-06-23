@@ -1,15 +1,7 @@
 package com.github.susan.lottery.lottery;
 
-import android.util.Log;
-
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.github.susan.lottery.lottery.Utils.TAG;
 import static org.junit.Assert.*;
 
 /**

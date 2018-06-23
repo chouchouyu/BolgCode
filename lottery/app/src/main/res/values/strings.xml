@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">lottery</string>
+
+    <string name="title_normal">胜平负</string>
+    <string name="title_concede">让球</string>
+    <string name="title_score">总球数</string>
+
+    <string name="title_edit">编辑</string>
+    <string name="title_latest">最新数据</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

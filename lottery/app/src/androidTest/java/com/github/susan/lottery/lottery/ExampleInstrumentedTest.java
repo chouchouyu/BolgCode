@@ -5,6 +5,11 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
+import com.github.susan.lottery.lottery.logistic.HalfGameBet;
+import com.github.susan.lottery.lottery.logistic.ScoreBet;
+import com.github.susan.lottery.lottery.logistic.SingleBet;
+import com.github.susan.lottery.lottery.logistic.VictoryBet;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -13,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.susan.lottery.lottery.Utils.TAG;
+import static com.github.susan.lottery.lottery.logistic.Utils.TAG;
 import static org.junit.Assert.*;
 
 /**

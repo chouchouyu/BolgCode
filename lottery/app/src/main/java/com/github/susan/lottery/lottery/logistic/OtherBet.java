@@ -1,5 +1,7 @@
-package com.github.susan.lottery.lottery;
+package com.github.susan.lottery.lottery.logistic;
 
+
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -12,11 +14,22 @@ public abstract class OtherBet extends SingleBet {
         super(gameType, 0, 0, 0, scoreMap, concedePoint);
     }
 
+    private Map<String, Rate> concedeMap;
+
     @Override
     void calculate(double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap, int concedePoint) {
+        if (concedeMap == null) {
+            concedeMap = new HashMap<>();
+        } else {
+            concedeMap.clear();
+        }
+
         for (String score : scoreMap.keySet()) {
-            Result result = classifyScore(score, concedePoint);
+            Rate rate = classifyScore(score, concedePoint);
             double rawRate = scoreMap.get(score);
+            rate.setRawRate(rawRate);
+            concedeMap.put(score, rate);
+            Result result = rate.getResult();
             if (result.equals(Result.SUCCESS)) {
                 oddSuccess += rawRate;
             } else if (result.equals(Result.DRAW)) {
@@ -26,12 +39,11 @@ public abstract class OtherBet extends SingleBet {
             }
         }
 
-        after(oddSuccess, oddDraw, oddFail, getoncedeMap());
+        after(oddSuccess, oddDraw, oddFail,concedeMap);
     }
 
 
-    abstract Result classifyScore(String score, int concedePoint);
+    abstract Rate classifyScore(String score, int concedePoint);
 
-    abstract Map<String, Rate> getoncedeMap();
 
 }
