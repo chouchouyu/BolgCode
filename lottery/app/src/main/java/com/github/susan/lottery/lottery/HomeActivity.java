@@ -14,6 +14,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import static com.github.susan.lottery.lottery.Helper.webRequest;
+
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private enum TabFragment {
@@ -126,7 +128,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_latest:
-                Toast.makeText(this, "你点击了“用户”按键！", Toast.LENGTH_SHORT).show();
+                webRequest();
                 return true;
             case R.id.navigation_edit:
                 Toast.makeText(this, "你点击了“发布”按键！", Toast.LENGTH_SHORT).show();
