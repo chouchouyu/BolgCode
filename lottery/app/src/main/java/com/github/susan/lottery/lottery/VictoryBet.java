@@ -9,13 +9,13 @@ import java.util.Map;
 public class VictoryBet extends SingleBet {
 
 
-    public VictoryBet(double oddSuccess, double oddsDraw, double oddsFail) {
-        super(GameType.VICTORY, oddSuccess, oddsDraw, oddsFail,null);
+    public VictoryBet(double oddSuccess, double oddsDraw, double oddsFail, int concedePoint) {
+        super(GameType.VICTORY, oddSuccess, oddsDraw, oddsFail, null, concedePoint);
     }
 
 
     @Override
-    void calculate(double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap) {
+    void calculate(double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap, int concedePoint) {
 
     }
 }

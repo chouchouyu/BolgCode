@@ -1,22 +1,36 @@
 package com.github.susan.lottery.lottery;
 
 import java.util.Map;
+import java.util.TreeMap;
+
+import static com.github.susan.lottery.lottery.Utils.COLON;
 
 /**
  * Created by susan on 2018/6/22.
  */
 
-public class ScoreBet extends SingleBet {
+public class ScoreBet extends OtherBet {
+
+    private Map<String, String> concedeMap;
 
 
-    public ScoreBet(Map<String, Double> scoreMap) {
-        super(GameType.SCORE, 0, 0, 0, scoreMap);
+    public ScoreBet(Map<String, Double> scoreMap, int concedePoint) {
+        super(GameType.SCORE, scoreMap, concedePoint);
     }
 
-    private Result classifyScore(String rate) {
-        String[] rateArray = rate.split(":");
+    @Override
+    Result classifyScore(String rate, int concedePoint) {
+        String[] rateArray = rate.split(COLON);
         int front = Integer.parseInt(rateArray[0]);
         int after = Integer.parseInt(rateArray[1]);
+        front += concedePoint;
+        if (front < 0) {
+            front = 0;
+        }
+        if (after < 0) {
+            after = 0;
+        }
+//        save(rate, front, after);
         if (front > after) {
             return Result.SUCCESS;
         } else if (front == after) {
@@ -27,27 +41,16 @@ public class ScoreBet extends SingleBet {
     }
 
     @Override
-    void calculate(double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap) {
-        for (String score : scoreMap.keySet()) {
-            Result result = classifyScore(score);
-            if (result.equals(Result.SUCCESS)) {
-                oddSuccess += scoreMap.get(score);
-            } else if (result.equals(Result.DRAW)) {
-                oddDraw += scoreMap.get(score);
-            } else {
-                oddFail += scoreMap.get(score);
-            }
-        }
-
-        after(oddSuccess,oddDraw,oddFail);
+    Map<String, Rate> getoncedeMap() {
+        return null;
     }
+//    private void save(String rate, int front, int after,Map<String, String> concedeMap) {
+//        if (concedeMap == null) {
+//            concedeMap = new TreeMap<>();
+//        }
+//        concedeMap.put(rate, new StringBuilder().append(front).append(COLON).append(after).toString());
+//    }
 
 
 
-
-    private enum Result {
-        SUCCESS,
-        FAIL,
-        DRAW
-    }
 }

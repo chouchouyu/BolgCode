@@ -1,7 +1,5 @@
 package com.github.susan.lottery.lottery;
 
-import android.support.annotation.NonNull;
-
 import java.util.Map;
 
 import static com.github.susan.lottery.lottery.Utils.TargetMoney;
@@ -38,15 +36,20 @@ abstract class SingleBet {
 
     private Map<String, Double> scoreMap;
 
+    private int concedePoint;
 
-    public SingleBet(GameType gameType, double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap) {
+    private Map<String, Rate> concedeMap;
+
+
+    public SingleBet(GameType gameType, double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap, int concedePoint) {
         this.gameType = gameType;
         this.scoreMap = scoreMap;
         this.oddsSuccess = oddSuccess;
         this.oddsDraw = oddDraw;
         this.oddsFail = oddFail;
+        this.concedePoint = concedePoint;
         if (scoreMap != null) {
-            calculate(oddSuccess, oddDraw, oddFail, scoreMap);
+            calculate(oddSuccess, oddDraw, oddFail, scoreMap, concedePoint);
         }
         setMoneySuccess(oddsSuccess);
         setMoneyDraw(oddsDraw);
@@ -54,13 +57,22 @@ abstract class SingleBet {
         setTotalCost();
     }
 
-    abstract void calculate(double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap);
+    abstract void calculate(double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap, int concedePoint);
 
 
-   public void after(double oddSuccess, double oddDraw, double oddFail) {
-       this.oddsSuccess = oddSuccess;
-       this.oddsDraw = oddDraw;
-       this.oddsFail = oddFail;
+    public void after(double oddSuccess, double oddDraw, double oddFail, Map<String, Rate> concedeMap) {
+        this.oddsSuccess = oddSuccess;
+        this.oddsDraw = oddDraw;
+        this.oddsFail = oddFail;
+        this.concedeMap = concedeMap;
+    }
+
+    public int getConcedePoint() {
+        return concedePoint;
+    }
+
+    public void setConcedePoint(int concedePoint) {
+        this.concedePoint = concedePoint;
     }
 
     public void setGameType(GameType gameType) {
@@ -85,6 +97,14 @@ abstract class SingleBet {
 
     public void setScoreMap(Map<String, Double> scoreMap) {
         this.scoreMap = scoreMap;
+    }
+
+    public Map<String, Rate> getConcedeMap() {
+        return concedeMap;
+    }
+
+    public void setConcedeMap(Map<String, Rate> concedeMap) {
+        this.concedeMap = concedeMap;
     }
 
     private void setMoneySuccess(double moneySuccess) {
@@ -152,6 +172,61 @@ abstract class SingleBet {
                 ", moneyFail=" + moneyFail +
                 ", TotalCost=" + TotalCost +
                 ", scoreMap=" + scoreMap +
+                ", concedePoint=" + concedePoint +
+                ", concedeMap=" + concedeMap +
                 '}';
+    }
+
+    class Rate {
+        private double rawRate;
+        private String concedeBet;
+        private double concedeRate;
+        private Result result;
+
+        public Rate(double rawRate) {
+            this.rawRate = rawRate;
+        }
+
+        public double getRawRate() {
+            return rawRate;
+        }
+
+        public void setRawRate(double rawRate) {
+            this.rawRate = rawRate;
+        }
+
+        public String getConcedeBet() {
+            return concedeBet;
+        }
+
+        public void setConcedeBet(String concedeBet) {
+            this.concedeBet = concedeBet;
+        }
+
+        public double getConcedeRate() {
+            return concedeRate;
+        }
+
+        public void setConcedeRate(double concedeRate) {
+            this.concedeRate = concedeRate;
+        }
+
+        public Result getResult() {
+            return result;
+        }
+
+        public void setResult(Result result) {
+            this.result = result;
+        }
+
+        @Override
+        public String toString() {
+            return "Rate{" +
+                    "rawRate=" + rawRate +
+                    ", concedeBet='" + concedeBet + '\'' +
+                    ", concedeRate=" + concedeRate +
+                    ", result=" + result +
+                    '}';
+        }
     }
 }
