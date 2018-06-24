@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONReader;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -25,6 +26,11 @@ import retrofit2.Retrofit;
 public class Helper {
 
     public static final String TAG = "LOTTERY :";
+
+    public static String mathRound(double character) {
+        DecimalFormat df1 = new DecimalFormat("###0.00");
+        return df1.format(character);
+    }
 
     public static void webRequest() {
         Retrofit retrofit = MyApplication.getRetrofit();

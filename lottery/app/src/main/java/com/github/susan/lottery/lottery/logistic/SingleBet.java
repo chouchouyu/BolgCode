@@ -11,7 +11,7 @@ import static com.github.susan.lottery.lottery.logistic.Utils.TargetMoney;
  * Created by susan on 2018/6/22.
  */
 
-abstract class SingleBet {
+public abstract class SingleBet {
 
     //比赛类型
     private GameType gameType;
@@ -47,13 +47,10 @@ abstract class SingleBet {
     public SingleBet(GameType gameType, double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap, int concedePoint) {
         this.gameType = gameType;
         this.scoreMap = scoreMap;
-//        this.oddsSuccess = oddSuccess;
-//        this.oddsDraw = oddDraw;
-//        this.oddsFail = oddFail;
         this.concedePoint = concedePoint;
-        if (scoreMap != null) {
+//        if (scoreMap != null) {
             calculate(oddSuccess, oddDraw, oddFail, scoreMap, concedePoint);
-        }
+//        }
     }
 
     abstract void calculate(double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap, int concedePoint);
@@ -66,7 +63,7 @@ abstract class SingleBet {
         this.concedeMap = concedeMap;
         setMoneySuccess(oddsSuccess);
         setMoneyDraw(oddsDraw);
-        setMoneyFail(oddsDraw);
+        setMoneyFail(oddsFail);
         setTotalCost();
     }
 

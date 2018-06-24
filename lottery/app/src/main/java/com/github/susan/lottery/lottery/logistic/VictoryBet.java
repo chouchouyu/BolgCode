@@ -17,6 +17,6 @@ public class VictoryBet extends SingleBet {
 
     @Override
     void calculate(double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap, int concedePoint) {
-
+        after(oddSuccess,oddDraw,oddFail,null);
     }
 }

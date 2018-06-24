@@ -2,7 +2,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorAccent"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,17 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!--胜平负 start-->
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="胜平负" />
-
         <include layout="@layout/content_betresult" />
-
-        <!--胜平负 end-->
-
 
     </LinearLayout>
 
