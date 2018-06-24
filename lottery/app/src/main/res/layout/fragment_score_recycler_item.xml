@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/group_2_sub"
+        android:gravity="center"
+        android:textColor="@color/group_2_title"
+        tools:text="1:0" />
+
+    <EditText
+        android:id="@+id/et_oods"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/group_2_main"
+        android:gravity="center"
+        android:hint="0"
+        android:textColor="@color/group_2_text"
+        android:textColorHint="@color/group_2_text" />
+
+
+    <TextView
+        android:id="@+id/tv_precent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:hint="0"
+        android:maxEms="3"
+        android:singleLine="true"
+        android:textColor="@color/group_2_sub"
+        android:textColorHint="@color/group_2_text" />
+
+
+    <View
+        android:id="@+id/view_result"
+        android:background="@android:color/holo_red_dark"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+</LinearLayout>
