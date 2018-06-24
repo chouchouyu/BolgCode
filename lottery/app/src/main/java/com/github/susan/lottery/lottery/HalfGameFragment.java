@@ -26,6 +26,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.github.susan.lottery.lottery.logistic.Utils.Price;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -105,28 +107,37 @@ public class HalfGameFragment extends Fragment implements TextWatcher {
     @BindView(R.id.tv_max_moneyFail)
     TextView tvMaxMoneyFail;
 
+    @BindView(R.id.tv_min_returnmoneysuccess)
+    TextView tvMinReturnmoneysuccess;
+    @BindView(R.id.tv_min_returnmoneydraw)
+    TextView tvMinReturnmoneydraw;
+    @BindView(R.id.tv_min_returnmoneyFail)
+    TextView tvMinReturnmoneyFail;
+
+    @BindView(R.id.tv_max_returnmoneysuccess)
+    TextView tvMaxReturnmoneysuccess;
+    @BindView(R.id.tv_max_returnmoneydraw)
+    TextView tvMaxReturnmoneydraw;
+    @BindView(R.id.tv_max_returnmoneyFail)
+    TextView tvMaxReturnmoneyFail;
 
     @BindView(R.id.tv_numsuccess)
     TextView tvNumsuccess;
-    @BindView(R.id.tv_chargesuccess)
-    TextView tvChargesuccess;
-    @BindView(R.id.tv_returnmoneysuccess)
-    TextView tvReturnmoneysuccess;
     @BindView(R.id.tv_numdraw)
     TextView tvNumdraw;
-    @BindView(R.id.tv_chargedraw)
-    TextView tvChargedraw;
-    @BindView(R.id.tv_returnmoneydraw)
-    TextView tvReturnmoneydraw;
     @BindView(R.id.tv_numFail)
     TextView tvNumFail;
-    @BindView(R.id.tv_chargeFail)
+
+    @BindView(R.id.tv_chargesuccess)
+    TextView tvChargesuccess;
+    @BindView(R.id.tv_chargedraw)
+    TextView tvChargedraw;
+    @BindView(R.id.tv_chargefail)
     TextView tvChargeFail;
-    @BindView(R.id.tv_returnmoneyFail)
-    TextView tvReturnmoneyFail;
 
 
     Unbinder unbinder;
+
 
     public HalfGameFragment() {
         // Required empty public constructor
@@ -248,12 +259,16 @@ public class HalfGameFragment extends Fragment implements TextWatcher {
         SingleBet.Rate minDrawRate = getRate(drawMap, drawOddsArray, true);
         SingleBet.Rate minFailRate = getRate(failMap, failOddsArray, true);
 
-        tvMinOddsSuccess.setText(minWinRate.getRawOdds() + "");
+        //比率 和 百分率
+        double minWinRateOdds = minWinRate.getRawOdds();
+        tvMinOddsSuccess.setText(minWinRateOdds + "");
         tvMinMoneySuccess.setText(minWinRate.getPrecentMoney() + "");
 
-        tvMinOddsDraw.setText(minDrawRate.getRawOdds() + "");
+        double minDrawRateOdds = minDrawRate.getRawOdds();
+        tvMinOddsDraw.setText(minDrawRateOdds + "");
         tvMinMoneyDraw.setText(minDrawRate.getPrecentMoney() + "");
 
+        double minFailRateOdds = minFailRate.getPrecentMoney();
         tvMinOddsFail.setText(minFailRate.getRawOdds() + "");
         tvMinMoneyFail.setText(minFailRate.getPrecentMoney() + "");
 
@@ -261,15 +276,35 @@ public class HalfGameFragment extends Fragment implements TextWatcher {
         SingleBet.Rate maxDrawRate = getRate(drawMap, drawOddsArray, false);
         SingleBet.Rate maxFailRate = getRate(failMap, failOddsArray, false);
 
-        tvMaxOddsSuccess.setText(maxWinRate.getRawOdds() + "");
+        double maxWinRateOdds = maxWinRate.getRawOdds();
+        tvMaxOddsSuccess.setText(maxWinRateOdds + "");
         tvMaxMoneySuccess.setText(maxWinRate.getPrecentMoney() + "");
 
-        tvMaxOddsDraw.setText(maxDrawRate.getRawOdds() + "");
+        double maxDrawRateOdds = maxDrawRate.getRawOdds();
+        tvMaxOddsDraw.setText(maxDrawRateOdds + "");
         tvMaxMoneyDraw.setText(maxDrawRate.getPrecentMoney() + "");
 
-        tvMaxOddsFail.setText(maxFailRate.getRawOdds() + "");
+        double maxFailRateOdds = maxFailRate.getRawOdds();
+        tvMaxOddsFail.setText(maxFailRateOdds + "");
         tvMaxMoneyFail.setText(maxFailRate.getPrecentMoney() + "");
 
+        //回报
+        tvMinReturnmoneysuccess.setText(minWinRateOdds * Price + "");
+        tvMinReturnmoneydraw.setText(minDrawRateOdds * Price + "");
+        tvMinReturnmoneyFail.setText(minFailRateOdds * Price + "");
+
+        tvMaxReturnmoneysuccess.setText(maxWinRateOdds * Price + "");
+        tvMaxReturnmoneydraw.setText(maxDrawRateOdds * Price + "");
+        tvMaxReturnmoneyFail.setText(maxFailRateOdds * Price + "");
+
+        //注数
+        tvNumsuccess.setText(winMap.size() + "");
+        tvNumdraw.setText(drawMap.size() + "");
+        tvNumFail.setText(failMap.size() + "");
+
+        tvChargesuccess.setText(winMap.size() * Price+"");
+        tvChargedraw.setText(drawMap.size() * Price+"");
+        tvChargeFail.setText(drawMap.size() * Price+"");
 
     }
 
