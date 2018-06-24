@@ -25,20 +25,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/group_1_bg"
-        app:columnCount="7"
-        app:rowCount="2">
+        app:columnCount="5"
+        app:rowCount="3">
 
         <LinearLayout
             android:gravity="center"
             android:orientation="vertical"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text=""
                 android:textColor="@color/group_1_title" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -54,11 +56,12 @@
             android:orientation="vertical"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text=""
+                android:text=" "
                 android:textColor="@color/group_1_title" />
 
             <TextView
@@ -75,6 +78,7 @@
                 android:gravity="center"
                 android:text="百分比"
                 android:textColor="@color/group_1_title" />
+
 
         </LinearLayout>
 
@@ -95,7 +99,7 @@
 
 
             <TextView
-                android:id="@+id/tv_min_oddsSuccess"
+                android:id="@+id/tv_min_oddssuccess"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/group_1_sub"
@@ -104,7 +108,7 @@
                 android:textColor="@color/group_1_text" />
 
             <TextView
-                android:id="@+id/tv_min_moneySuccess"
+                android:id="@+id/tv_min_moneysuccess"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -113,6 +117,7 @@
                 android:singleLine="true"
                 android:textColor="@color/group_1_text"
                 android:textColorHint="@color/group_1_text" />
+
 
         </LinearLayout>
 
@@ -129,8 +134,9 @@
                 android:gravity="center"
                 android:text="平"
                 android:textColor="@color/group_1_title" />
+
             <TextView
-                android:id="@+id/tv_min_oddsDraw"
+                android:id="@+id/tv_min_oddsdraw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/group_1_sub"
@@ -139,7 +145,7 @@
                 android:textColor="@color/group_1_text" />
 
             <TextView
-                android:id="@+id/tv_min_moneyDraw"
+                android:id="@+id/tv_min_moneydraw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -148,6 +154,7 @@
                 android:singleLine="true"
                 android:textColor="@color/group_1_text"
                 android:textColorHint="@color/group_1_text" />
+
 
         </LinearLayout>
 
@@ -166,7 +173,7 @@
                 android:textColor="@color/group_1_title" />
 
             <TextView
-                android:id="@+id/tv_min_oddsFail"
+                android:id="@+id/tv_min_oddsfail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/group_1_sub"
@@ -185,78 +192,10 @@
                 android:textColor="@color/group_1_text"
                 android:textColorHint="@color/group_1_text" />
 
-        </LinearLayout>
-
-        <LinearLayout
-
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text=""
-                android:textColor="@color/group_1_title" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="最低花费"
-                android:textColor="@color/group_1_title" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/group_1_sub"
-                android:gravity="center"
-                android:text="总花费"
-                android:textColor="@color/group_1_title" />
 
         </LinearLayout>
 
-        <LinearLayout
 
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text=""
-                android:textColor="@color/group_1_title" />
-
-            <TextView
-
-                android:id="@+id/tv_min_cost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:hint="0"
-                android:maxEms="3"
-                android:singleLine="true"
-                android:textColor="@color/group_1_text"
-                android:textColorHint="@color/group_1_text" />
-
-            <TextView
-                android:id="@+id/tv_min_total"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/group_1_sub"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:hint="0"
-                android:maxEms="3"
-                android:singleLine="true"
-                android:textColor="@color/group_1_text"
-                android:textColorHint="@color/group_1_text" />
-
-        </LinearLayout>
         <!--最小-->
         <LinearLayout
             android:gravity="center"
@@ -295,7 +234,6 @@
                 android:gravity="center"
                 android:text="百分比"
                 android:textColor="@color/group_1_title" />
-
         </LinearLayout>
 
 
@@ -308,7 +246,7 @@
 
 
             <TextView
-                android:id="@+id/tv_max_oddsSuccess"
+                android:id="@+id/tv_max_oddssuccess"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/group_1_main"
@@ -317,7 +255,7 @@
                 android:textColor="@color/group_1_text" />
 
             <TextView
-                android:id="@+id/tv_max_moneySuccess"
+                android:id="@+id/tv_max_moneysuccess"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -338,7 +276,7 @@
 
 
             <TextView
-                android:id="@+id/tv_max_oddsDraw"
+                android:id="@+id/tv_max_oddsdraw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/group_1_main"
@@ -347,7 +285,7 @@
                 android:textColor="@color/group_1_text" />
 
             <TextView
-                android:id="@+id/tv_max_moneyDraw"
+                android:id="@+id/tv_max_moneydraw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -356,6 +294,7 @@
                 android:singleLine="true"
                 android:textColor="@color/group_1_text"
                 android:textColorHint="@color/group_1_text" />
+
 
         </LinearLayout>
 
@@ -390,32 +329,23 @@
         </LinearLayout>
 
         <LinearLayout
-
             android:gravity="center"
             android:orientation="vertical"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1">
 
-
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+              android:textStyle="bold"
                 android:gravity="center"
-                android:text="最低花费"
+                android:text="总计"
                 android:textColor="@color/group_1_title" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/group_1_main"
-                android:gravity="center"
-                android:text="总花费"
-                android:textColor="@color/group_1_title" />
 
         </LinearLayout>
 
         <LinearLayout
-
             android:gravity="center"
             android:orientation="vertical"
             app:layout_columnWeight="1"
@@ -423,22 +353,42 @@
 
 
             <TextView
-                android:id="@+id/tv_max_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
+                android:background="@color/group_1_sub"
                 android:gravity="center"
-                android:maxEms="3"
-                android:singleLine="true"
-                android:text="0"
-                android:textColor="@color/group_1_text"
-                android:textColorHint="@color/group_1_text" />
+                android:text="注数"
+                android:textColor="@color/group_1_title" />
 
             <TextView
-                android:id="@+id/tv_max_total"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/group_1_main"
+
+                android:gravity="center"
+                android:text="花费"
+                android:textColor="@color/group_1_title" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="回报值"
+                android:textColor="@color/group_1_title" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <TextView
+                android:id="@+id/tv_numsuccess"
+                android:background="@color/group_1_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:hint="0"
@@ -447,6 +397,115 @@
                 android:textColor="@color/group_1_text"
                 android:textColorHint="@color/group_1_text" />
 
+            <TextView
+                android:id="@+id/tv_chargesuccess"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+            <TextView
+                android:id="@+id/tv_returnmoneysuccess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <TextView
+                android:id="@+id/tv_numdraw"
+                android:layout_width="match_parent"
+                android:background="@color/group_1_sub"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+            <TextView
+                android:id="@+id/tv_chargedraw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+            <TextView
+                android:id="@+id/tv_returnmoneydraw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <TextView
+                android:id="@+id/tv_numFail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:background="@color/group_1_sub"
+                android:gravity="center"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+            <TextView
+                android:id="@+id/tv_chargeFail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+            <TextView
+                android:id="@+id/tv_returnmoneyFail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
         </LinearLayout>
     </android.support.v7.widget.GridLayout>
 

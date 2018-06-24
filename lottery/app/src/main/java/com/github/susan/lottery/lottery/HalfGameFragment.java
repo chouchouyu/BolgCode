@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +15,9 @@ import android.widget.TextView;
 import com.github.susan.lottery.lottery.logistic.HalfGameBet;
 import com.github.susan.lottery.lottery.logistic.Result;
 import com.github.susan.lottery.lottery.logistic.SingleBet;
-import com.github.susan.lottery.lottery.logistic.VictoryBet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -28,9 +25,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
-import static android.support.constraint.Constraints.TAG;
-import static com.github.susan.lottery.lottery.Helper.mathRound;
 
 
 /**
@@ -85,38 +79,53 @@ public class HalfGameFragment extends Fragment implements TextWatcher {
     TextView tvFailFailMoneny;
 
 
-    @BindView(R.id.tv_min_oddsSuccess)
+    @BindView(R.id.tv_min_oddssuccess)
     TextView tvMinOddsSuccess;
-    @BindView(R.id.tv_min_moneySuccess)
+    @BindView(R.id.tv_min_moneysuccess)
     TextView tvMinMoneySuccess;
-    @BindView(R.id.tv_min_oddsDraw)
+    @BindView(R.id.tv_min_oddsdraw)
     TextView tvMinOddsDraw;
-    @BindView(R.id.tv_min_moneyDraw)
+    @BindView(R.id.tv_min_moneydraw)
     TextView tvMinMoneyDraw;
-    @BindView(R.id.tv_min_oddsFail)
+    @BindView(R.id.tv_min_oddsfail)
     TextView tvMinOddsFail;
     @BindView(R.id.tv_min_moneyFail)
     TextView tvMinMoneyFail;
-    //    @BindView(R.id.tv_min_cost)
-//    TextView tvMinCost;
-//    @BindView(R.id.tv_min_total)
-//    TextView tvMinTotal;
-    @BindView(R.id.tv_max_oddsSuccess)
+
+    @BindView(R.id.tv_max_oddssuccess)
     TextView tvMaxOddsSuccess;
-    @BindView(R.id.tv_max_moneySuccess)
+    @BindView(R.id.tv_max_moneysuccess)
     TextView tvMaxMoneySuccess;
-    @BindView(R.id.tv_max_oddsDraw)
+    @BindView(R.id.tv_max_oddsdraw)
     TextView tvMaxOddsDraw;
-    @BindView(R.id.tv_max_moneyDraw)
+    @BindView(R.id.tv_max_moneydraw)
     TextView tvMaxMoneyDraw;
     @BindView(R.id.tv_max_oddsFail)
     TextView tvMaxOddsFail;
     @BindView(R.id.tv_max_moneyFail)
     TextView tvMaxMoneyFail;
-    //    @BindView(R.id.tv_max_cost)
-//    TextView tvMaxCost;
-//    @BindView(R.id.tv_max_total)
-//    TextView tvMaxTotal;
+
+
+    @BindView(R.id.tv_numsuccess)
+    TextView tvNumsuccess;
+    @BindView(R.id.tv_chargesuccess)
+    TextView tvChargesuccess;
+    @BindView(R.id.tv_returnmoneysuccess)
+    TextView tvReturnmoneysuccess;
+    @BindView(R.id.tv_numdraw)
+    TextView tvNumdraw;
+    @BindView(R.id.tv_chargedraw)
+    TextView tvChargedraw;
+    @BindView(R.id.tv_returnmoneydraw)
+    TextView tvReturnmoneydraw;
+    @BindView(R.id.tv_numFail)
+    TextView tvNumFail;
+    @BindView(R.id.tv_chargeFail)
+    TextView tvChargeFail;
+    @BindView(R.id.tv_returnmoneyFail)
+    TextView tvReturnmoneyFail;
+
+
     Unbinder unbinder;
 
     public HalfGameFragment() {
@@ -234,15 +243,6 @@ public class HalfGameFragment extends Fragment implements TextWatcher {
         Double[] winOddsArray = sort(winOddsList);
         Double[] drawOddsArray = sort(drawOddsList);
         Double[] failOddsArray = sort(failOddsList);
-
-        Log.d(TAG,"winOddsArray-> "+ winOddsArray.toString());
-        Log.d(TAG,"drawOddsArray-> "+  drawOddsArray.toString());
-        Log.d(TAG, "failOddsArray-> "+ failOddsArray.toString());
-
-        Log.d(TAG,"winMap-> "+ winMap.toString());
-        Log.d(TAG,"drawMap-> "+ drawMap.toString());
-        Log.d(TAG,"failMap-> "+ failMap.toString());
-
 
         SingleBet.Rate minWinRate = getRate(winMap, winOddsArray, true);
         SingleBet.Rate minDrawRate = getRate(drawMap, drawOddsArray, true);
