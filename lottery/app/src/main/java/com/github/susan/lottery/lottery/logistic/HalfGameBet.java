@@ -28,11 +28,10 @@ public class HalfGameBet extends OtherBet {
         if (TextUtils.equals(after, WIN)) {
             result = Result.SUCCESS;
         } else if (TextUtils.equals(after, LOST)) {
-            result = Result.DRAW;
-        } else {
             result = Result.FAIL;
+        } else {
+            result = Result.DRAW;
         }
         return Utils.Create(front, after, result);
     }
-
 }

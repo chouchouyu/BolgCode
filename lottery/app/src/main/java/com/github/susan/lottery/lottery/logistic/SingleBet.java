@@ -5,6 +5,7 @@ import com.github.susan.lottery.lottery.logistic.Result;
 
 import java.util.Map;
 
+import static com.github.susan.lottery.lottery.logistic.Utils.Price;
 import static com.github.susan.lottery.lottery.logistic.Utils.TargetMoney;
 
 /**
@@ -49,7 +50,7 @@ public abstract class SingleBet {
         this.scoreMap = scoreMap;
         this.concedePoint = concedePoint;
 //        if (scoreMap != null) {
-            calculate(oddSuccess, oddDraw, oddFail, scoreMap, concedePoint);
+        calculate(oddSuccess, oddDraw, oddFail, scoreMap, concedePoint);
 //        }
     }
 
@@ -107,28 +108,28 @@ public abstract class SingleBet {
         this.concedeMap = concedeMap;
     }
 
-    private void setMoneySuccess(double moneySuccess) {
-        if (moneySuccess == 0.0) {
+    private void setMoneySuccess(double oddsSuccess) {
+        if (oddsSuccess == 0.0) {
             this.moneySuccess = 0;
         } else {
-            this.moneySuccess = TargetMoney / moneySuccess;
+            this.moneySuccess = TargetMoney / oddsSuccess;
         }
 
     }
 
-    private void setMoneyDraw(double moneyDraw) {
-        if (moneyDraw == 0.0) {
+    private void setMoneyDraw(double oddsDraw) {
+        if (oddsDraw == 0.0) {
             this.moneyDraw = 0;
         } else {
-            this.moneyDraw = TargetMoney / moneyDraw;
+            this.moneyDraw = TargetMoney / oddsDraw;
         }
     }
 
-    private void setMoneyFail(double moneyFail) {
-        if (moneyFail == 0.0) {
+    private void setMoneyFail(double oddsFail) {
+        if (oddsFail == 0.0) {
             this.moneyFail = 0;
         } else {
-            this.moneyFail = TargetMoney / moneyFail;
+            this.moneyFail = TargetMoney / oddsFail;
         }
 
     }
@@ -191,11 +192,14 @@ public abstract class SingleBet {
                 '}';
     }
 
-    static class Rate {
-        private double rawRate;
+    public static class Rate {
+        private double rawOdds;
         private String concedeBet;
         private Result result;
+        //总球数
         private int scoreCount;
+        private double precentMoney;
+        private double earnMoney;
 
         public int getScoreCount() {
             return scoreCount;
@@ -205,12 +209,12 @@ public abstract class SingleBet {
             this.scoreCount = scoreCount;
         }
 
-        public double getRawRate() {
-            return rawRate;
+        public double getRawOdds() {
+            return rawOdds;
         }
 
-        public void setRawRate(double rawRate) {
-            this.rawRate = rawRate;
+        public void setRawOdds(double rawOdds) {
+            this.rawOdds = rawOdds;
         }
 
         public String getConcedeBet() {
@@ -221,7 +225,6 @@ public abstract class SingleBet {
             this.concedeBet = concedeBet;
         }
 
-
         public Result getResult() {
             return result;
         }
@@ -230,13 +233,39 @@ public abstract class SingleBet {
             this.result = result;
         }
 
+        public double getPrecentMoney() {
+            return precentMoney;
+        }
+
+        public void setPrecentMoney(double rawOdds) {
+            if (rawOdds == 0.0) {
+                this.precentMoney = 0;
+            } else {
+                this.precentMoney = TargetMoney / rawOdds;
+            }
+        }
+
+        public double getEarnMoney() {
+            return earnMoney;
+        }
+
+        public void setEarnMoney(double rawOdds) {
+            if (rawOdds == 0.0) {
+                this.earnMoney = 0;
+            } else {
+                this.earnMoney = rawOdds * Price;
+            }
+        }
+
         @Override
         public String toString() {
             return "Rate{" +
-                    "rawRate=" + rawRate +
+                    "rawOdds=" + rawOdds +
                     ", concedeBet='" + concedeBet + '\'' +
                     ", result=" + result +
                     ", scoreCount=" + scoreCount +
+                    ", precentMoney=" + precentMoney +
+                    ", earnMoney=" + earnMoney +
                     '}';
         }
     }

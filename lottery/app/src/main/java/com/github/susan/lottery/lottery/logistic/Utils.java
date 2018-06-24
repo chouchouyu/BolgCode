@@ -9,6 +9,7 @@ public class Utils {
 
 
     public static final int TargetMoney = 100;
+    public static final int Price = 2;
 
 
     public static final String TAG = "LOTTERY :";

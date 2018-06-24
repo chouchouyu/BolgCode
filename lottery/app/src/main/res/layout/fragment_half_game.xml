@@ -1,0 +1,453 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="com.github.susan.lottery.lottery.HalfGameFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="半全场"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <include layout="@layout/content_halfgame" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="计算结果" />
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/group_1_bg"
+        app:columnCount="7"
+        app:rowCount="2">
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/group_1_title" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/group_1_main"
+                android:gravity="center"
+                android:text="最小"
+                android:textColor="@color/group_1_title" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/group_1_title" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/group_1_sub"
+                android:gravity="center"
+                android:text="赔率"
+                android:textColor="@color/group_1_title" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="百分比"
+                android:textColor="@color/group_1_title" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="胜"
+                android:textColor="@color/group_1_title" />
+
+
+            <TextView
+                android:id="@+id/tv_min_oddsSuccess"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/group_1_sub"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/group_1_text" />
+
+            <TextView
+                android:id="@+id/tv_min_moneySuccess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="平"
+                android:textColor="@color/group_1_title" />
+            <TextView
+                android:id="@+id/tv_min_oddsDraw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/group_1_sub"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/group_1_text" />
+
+            <TextView
+                android:id="@+id/tv_min_moneyDraw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="负"
+                android:textColor="@color/group_1_title" />
+
+            <TextView
+                android:id="@+id/tv_min_oddsFail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/group_1_sub"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/group_1_text" />
+
+            <TextView
+                android:id="@+id/tv_min_moneyFail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/group_1_title" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="最低花费"
+                android:textColor="@color/group_1_title" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/group_1_sub"
+                android:gravity="center"
+                android:text="总花费"
+                android:textColor="@color/group_1_title" />
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/group_1_title" />
+
+            <TextView
+
+                android:id="@+id/tv_min_cost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+            <TextView
+                android:id="@+id/tv_min_total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/group_1_sub"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+        </LinearLayout>
+        <!--最小-->
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/group_1_sub"
+                android:gravity="center"
+                android:text="最大"
+                android:textColor="@color/group_1_title" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/group_1_main"
+                android:gravity="center"
+                android:text="赔率"
+                android:textColor="@color/group_1_title" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="百分比"
+                android:textColor="@color/group_1_title" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+
+            <TextView
+                android:id="@+id/tv_max_oddsSuccess"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/group_1_main"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/group_1_text" />
+
+            <TextView
+                android:id="@+id/tv_max_moneySuccess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+
+            <TextView
+                android:id="@+id/tv_max_oddsDraw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/group_1_main"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/group_1_text" />
+
+            <TextView
+                android:id="@+id/tv_max_moneyDraw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="1dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+
+            <TextView
+                android:id="@+id/tv_max_oddsFail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/group_1_main"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/group_1_text" />
+
+            <TextView
+                android:id="@+id/tv_max_moneyFail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="最低花费"
+                android:textColor="@color/group_1_title" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/group_1_main"
+                android:gravity="center"
+                android:text="总花费"
+                android:textColor="@color/group_1_title" />
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+
+            <TextView
+                android:id="@+id/tv_max_cost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:text="0"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+            <TextView
+                android:id="@+id/tv_max_total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/group_1_main"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="0"
+                android:maxEms="3"
+                android:singleLine="true"
+                android:textColor="@color/group_1_text"
+                android:textColorHint="@color/group_1_text" />
+
+        </LinearLayout>
+    </android.support.v7.widget.GridLayout>
+
+</LinearLayout>

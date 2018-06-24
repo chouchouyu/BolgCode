@@ -27,7 +27,9 @@ public abstract class OtherBet extends SingleBet {
         for (String score : scoreMap.keySet()) {
             Rate rate = classifyScore(score, concedePoint);
             double rawRate = scoreMap.get(score);
-            rate.setRawRate(rawRate);
+            rate.setRawOdds(rawRate);
+            rate.setEarnMoney(rawRate);
+            rate.setPrecentMoney(rawRate);
             concedeMap.put(score, rate);
             Result result = rate.getResult();
             if (result.equals(Result.SUCCESS)) {

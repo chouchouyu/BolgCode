@@ -3,6 +3,7 @@ package com.github.susan.lottery.lottery;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -28,31 +29,12 @@ import static com.github.susan.lottery.lottery.logistic.Utils.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class StandardFragment extends Fragment implements TextWatcher {
+public class StandardFragment extends Fragment {
 
-
-    @BindView(R.id.input_oddsSuccess)
-    EditText inputOddsSuccess;
-    @BindView(R.id.input_oddsFail)
-    EditText inputOddsFail;
-    @BindView(R.id.input_oddsDraw)
-    EditText inputOddsDraw;
-
-    @BindView(R.id.input_moneySuccess)
-    TextView inputMoneySuccess;
-    @BindView(R.id.input_moneyDraw)
-    TextView inputMoneyDraw;
-    @BindView(R.id.input_moneyFail)
-    TextView inputMoneyFail;
-
-    @BindView(R.id.tv_totalCost)
-    TextView tvTotalCost;
-    Unbinder unbinder;
 
     public StandardFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,50 +42,22 @@ public class StandardFragment extends Fragment implements TextWatcher {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_standard, container, false);
 
-        unbinder = ButterKnife.bind(this, view);
-        inputOddsSuccess.setFocusable(true);
-        inputOddsSuccess.addTextChangedListener(this);
-        inputOddsDraw.addTextChangedListener(this);
-        inputOddsFail.addTextChangedListener(this);
+        addWinOrLostFragment();
+
+        addHalfGameFragment();
 
         return view;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    private void addWinOrLostFragment() {
+        Fragment winOrlostFragment = new WinOrLostFragment();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.add(R.id.fl_win_or_lost, winOrlostFragment).commit();
     }
 
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        Log.w(TAG, "beforeTextChanged");
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        String textOddsSuccess = inputOddsSuccess.getText().toString();
-        String textOddsDraw = inputOddsDraw.getText().toString();
-        String textOddsFail = inputOddsFail.getText().toString();
-        if (TextUtils.isEmpty(textOddsSuccess)
-                || TextUtils.isEmpty(textOddsDraw)
-                || TextUtils.isEmpty(textOddsFail)) {
-            return;
-        }
-        double oddsDraw = Double.parseDouble(textOddsDraw);
-        double oddsFail = Double.parseDouble(textOddsFail);
-        double oddsSuccess = Double.parseDouble(textOddsSuccess);
-        VictoryBet victoryBet = new VictoryBet(oddsSuccess, oddsDraw, oddsFail, 0);
-
-        inputMoneySuccess.setText(mathRound(victoryBet.getMoneySuccess()));
-        inputMoneyDraw.setText(mathRound(victoryBet.getMoneyDraw()));
-        inputMoneyFail.setText(mathRound(victoryBet.getMoneyFail()));
-        tvTotalCost.setText(mathRound(victoryBet.getTotalCost()));
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        Log.w(TAG, "afterTextChanged");
+    private void addHalfGameFragment() {
+        Fragment halfGameFragment = new HalfGameFragment();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.add(R.id.fl_halfgame, halfGameFragment).commit();
     }
 }
