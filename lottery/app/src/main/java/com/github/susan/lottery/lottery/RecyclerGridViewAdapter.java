@@ -2,8 +2,11 @@ package com.github.susan.lottery.lottery;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +31,7 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
     private final String[] titleArray;
     private Context mContext;
     private LayoutInflater inflater;
+
 
     public interface OnRecyclerViewItemListener {
         public void onItemClickListener(View view, int position);
@@ -58,7 +62,7 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
 
         if (viewHolder == null) {
             return;
@@ -68,15 +72,46 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
             itemOnLongClick(viewHolder);
         }
         String key = titleArray[i];
-        SingleBet.Rate rate = concedeMap.get(key);
-        if (null == rate) {
-            viewHolder.tv_score.setText(key);
-        } else {
-            viewHolder.tv_score.setText(rate.getConcedeBet());
-            viewHolder.tv_precent.setText(rate.getPrecentMoney() + "");
-            viewHolder.et_oods.setText(rate.getRawOdds() + "");
-        }
-        viewHolder.et_oods.addTextChangedListener(fragment);
+        viewHolder.tv_score.setText(key);
+
+//        for (String key : concedeMap.keySet()) {
+//            viewHolder.tv_score.setText(concedeMap.get(key));
+//        }
+//        SingleBet.Rate rate = concedeMap.get(key);
+//        if (null == rate) {
+//
+//        } else {
+//            viewHolder.tv_score.setText(rate.getConcedeBet());
+//            viewHolder.tv_precent.setText(rate.getPrecentMoney() + "");
+//            viewHolder.et_oods.setText(rate.getRawOdds() + "");
+//            switch (rate.getResult()) {
+//                case DRAW:
+//                    viewHolder.view_result.setBackgroundColor(Color.YELLOW);
+//                    break;
+//                case FAIL:
+//                    viewHolder.view_result.setBackgroundColor(Color.GREEN);
+//                    break;
+//                case SUCCESS:
+//                    viewHolder.view_result.setBackgroundColor(Color.RED);
+//                    break;
+//            }
+//        }
+        viewHolder.et_oods.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                Log.d(TAG, "viewHolder ->" + viewHolder.tv_score.getText().toString());
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override
@@ -89,12 +124,14 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
         TextView tv_score;
         TextView et_oods;
         TextView tv_precent;
+        View view_result;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tv_score = (TextView) itemView.findViewById(R.id.tv_score);
             et_oods = (TextView) itemView.findViewById(R.id.et_oods);
             tv_precent = (TextView) itemView.findViewById(R.id.tv_precent);
+            view_result = (View) itemView.findViewById(R.id.view_result);
         }
     }
 
@@ -121,5 +158,6 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
             }
         });
     }
+
 
 }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/group_1_bg"
     android:orientation="vertical">
 
     <TextView
@@ -35,13 +36,12 @@
         android:hint="0"
         android:maxEms="3"
         android:singleLine="true"
-        android:textColor="@color/group_2_sub"
+        android:textColor="@color/group_2_text"
         android:textColorHint="@color/group_2_text" />
 
 
     <View
         android:id="@+id/view_result"
-        android:background="@android:color/holo_red_dark"
         android:layout_width="match_parent"
-        android:layout_height="20dp"/>
+        android:layout_height="20dp" />
 </LinearLayout>

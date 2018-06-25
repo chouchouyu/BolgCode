@@ -28,7 +28,7 @@ import static android.support.constraint.Constraints.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ScoreFragment extends Fragment implements TextWatcher {
+public class ScoreFragment extends Fragment {
 
 
     String[] titleArray = {"1:0", "2:0", "2:1",
@@ -44,6 +44,8 @@ public class ScoreFragment extends Fragment implements TextWatcher {
     private GridLayoutManager layoutManager;
 
     LinkedHashMap<String, SingleBet.Rate> concedeMap;
+
+    RecyclerGridViewAdapter adapter;
 
     public ScoreFragment() {
         // Required empty public constructor
@@ -61,34 +63,36 @@ public class ScoreFragment extends Fragment implements TextWatcher {
         for (String title : titleArray) {
             concedeMap.put(title, null);
         }
-        RecyclerGridViewAdapter adapter = new RecyclerGridViewAdapter(this, getContext(), concedeMap, titleArray);
+
+        adapter = new RecyclerGridViewAdapter(this, getContext(), concedeMap, titleArray);
         recyclerView.setAdapter(adapter);
+//        adapter.setOnRecyclerViewItemListener(this);
         return view;
     }
 
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        Log.d(TAG, "beforeTextChanged->" + s);
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        Log.d(TAG, "onTextChanged->" + s);
+
+
         LinkedHashMap<String, Double> scoreMap = new LinkedHashMap<>();
 
         for (int i = 0; i < layoutManager.getChildCount(); i++) {
             View item = layoutManager.findViewByPosition(i);
-            if (null == item) {
-                return;
-            }
-            TextView scoreText = item.findViewById(R.id.tv_score);
-            EditText editText = item.findViewById(R.id.et_oods);
-//            if (null == scoreText || editText == null) {
-//                break;
-//            }
-            String oods = editText.getText().toString();
-            if (!TextUtils.isEmpty(oods)) {
-                scoreMap.put(scoreText.getText().toString(), Double.valueOf(oods));
+            if (null != item) {
+                TextView scoreText = item.findViewById(R.id.tv_score);
+                EditText editText = item.findViewById(R.id.et_oods);
+                String oods = editText.getText().toString();
+
+                Log.d(TAG, "scoreText -> |" + scoreText.getText().toString());
+                Log.d(TAG, "oods -> |" + oods);
+                if (!TextUtils.isEmpty(oods)) {
+                    scoreMap.put(scoreText.getText().toString(), Double.valueOf(oods));
+                }
             }
         }
 
@@ -107,12 +111,29 @@ public class ScoreFragment extends Fragment implements TextWatcher {
             }
         }
         concedeMap.putAll(tempMap2);
-        RecyclerGridViewAdapter adapter = new RecyclerGridViewAdapter(this, getContext(), concedeMap, titleArray);
-        recyclerView.setAdapter(adapter);
+        Log.e(TAG, "Map -> " + concedeMap.toString());
+//        RecyclerGridViewAdapter adapter = new RecyclerGridViewAdapter(this, getContext(), concedeMap, titleArray);
+//        recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void afterTextChanged(Editable s) {
-        Log.d(TAG, "afterTextChanged->" + s);
+    private void dataSetChange(String score, String odds) {
+        SingleBet.Rate rate = concedeMap.get(score);
+        if (rate == null) {
+            rate = new SingleBet.Rate();
+        }
+        LinkedHashMap<String, Double> scoreMap = new LinkedHashMap<>();
+//        Iterator<Map.Entry<String, SingleBet.Rate>> it = concedeMap.entrySet().iterator();
+//        while (it.hasNext()) {
+            Map.Entry<String, SingleBet.Rate> entry = it.next();
+            if (TextUtils.equals(score, entry.getKey())) {
+                scoreMap.put(score, Double.valueOf(odds));
+            } else if (null != entry.getValue()) {
+                scoreMap.put(score, entry.getValue().getRawOdds());
+            }
+//        }
+        ScoreBet scoreBet = new ScoreBet(scoreMap, 0);
+        concedeMap = scoreBet.getConcedeMap();
+        adapter.notifyItemChanged();
     }
+
 }
