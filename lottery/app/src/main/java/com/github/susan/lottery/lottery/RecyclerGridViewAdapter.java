@@ -100,6 +100,7 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 Log.d(TAG, "viewHolder ->" + viewHolder.tv_score.getText().toString());
+                fragment.dataSetChange(viewHolder.tv_score.getText().toString(), viewHolder.et_oods.getText().toString());
             }
 
             @Override

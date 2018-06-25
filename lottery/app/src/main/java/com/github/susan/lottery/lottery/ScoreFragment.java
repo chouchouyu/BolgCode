@@ -70,7 +70,7 @@ public class ScoreFragment extends Fragment {
         return view;
     }
 
-
+/*
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
@@ -115,25 +115,25 @@ public class ScoreFragment extends Fragment {
 //        RecyclerGridViewAdapter adapter = new RecyclerGridViewAdapter(this, getContext(), concedeMap, titleArray);
 //        recyclerView.setAdapter(adapter);
     }
-
-    private void dataSetChange(String score, String odds) {
+*/
+protected void dataSetChange(String score, String odds) {
         SingleBet.Rate rate = concedeMap.get(score);
         if (rate == null) {
             rate = new SingleBet.Rate();
         }
         LinkedHashMap<String, Double> scoreMap = new LinkedHashMap<>();
-//        Iterator<Map.Entry<String, SingleBet.Rate>> it = concedeMap.entrySet().iterator();
-//        while (it.hasNext()) {
+        Iterator<Map.Entry<String, SingleBet.Rate>> it = concedeMap.entrySet().iterator();
+        while (it.hasNext()) {
             Map.Entry<String, SingleBet.Rate> entry = it.next();
             if (TextUtils.equals(score, entry.getKey())) {
                 scoreMap.put(score, Double.valueOf(odds));
             } else if (null != entry.getValue()) {
                 scoreMap.put(score, entry.getValue().getRawOdds());
             }
-//        }
+        }
         ScoreBet scoreBet = new ScoreBet(scoreMap, 0);
         concedeMap = scoreBet.getConcedeMap();
-        adapter.notifyItemChanged();
+        adapter.notifyDataSetChanged();
     }
 
 }
