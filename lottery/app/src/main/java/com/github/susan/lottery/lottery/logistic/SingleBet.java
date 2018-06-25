@@ -3,6 +3,7 @@ package com.github.susan.lottery.lottery.logistic;
 import com.github.susan.lottery.lottery.logistic.GameType;
 import com.github.susan.lottery.lottery.logistic.Result;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.github.susan.lottery.lottery.logistic.Utils.Price;
@@ -38,14 +39,14 @@ public abstract class SingleBet {
     //总费用
     private double TotalCost = 0;
 
-    private Map<String, Double> scoreMap;
+    private LinkedHashMap<String, Double> scoreMap;
 
     private int concedePoint;
 
-    private Map<String, Rate> concedeMap;
+    private LinkedHashMap<String, Rate> concedeMap;
 
 
-    public SingleBet(GameType gameType, double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap, int concedePoint) {
+    public SingleBet(GameType gameType, double oddSuccess, double oddDraw, double oddFail, LinkedHashMap<String, Double> scoreMap, int concedePoint) {
         this.gameType = gameType;
         this.scoreMap = scoreMap;
         this.concedePoint = concedePoint;
@@ -54,10 +55,10 @@ public abstract class SingleBet {
 //        }
     }
 
-    abstract void calculate(double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap, int concedePoint);
+    abstract void calculate(double oddSuccess, double oddDraw, double oddFail, LinkedHashMap<String, Double> scoreMap, int concedePoint);
 
 
-    public void after(double oddSuccess, double oddDraw, double oddFail, Map<String, Rate> concedeMap) {
+    public void after(double oddSuccess, double oddDraw, double oddFail, LinkedHashMap<String, Rate> concedeMap) {
         this.oddsSuccess = oddSuccess;
         this.oddsDraw = oddDraw;
         this.oddsFail = oddFail;
@@ -92,19 +93,19 @@ public abstract class SingleBet {
         this.oddsFail = oddsFail;
     }
 
-    public Map<String, Double> getScoreMap() {
+    public LinkedHashMap<String, Double> getScoreMap() {
         return scoreMap;
     }
 
-    public void setScoreMap(Map<String, Double> scoreMap) {
+    public void setScoreMap(LinkedHashMap<String, Double> scoreMap) {
         this.scoreMap = scoreMap;
     }
 
-    public Map<String, Rate> getConcedeMap() {
+    public LinkedHashMap<String, Rate> getConcedeMap() {
         return concedeMap;
     }
 
-    public void setConcedeMap(Map<String, Rate> concedeMap) {
+    public void setConcedeMap(LinkedHashMap<String, Rate> concedeMap) {
         this.concedeMap = concedeMap;
     }
 

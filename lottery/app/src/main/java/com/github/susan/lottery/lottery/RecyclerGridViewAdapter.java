@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,10 @@ import android.widget.TextView;
 
 import com.github.susan.lottery.lottery.logistic.SingleBet;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static com.github.susan.lottery.lottery.logistic.Utils.TAG;
 
 /**
  * RecyclerView实现 gridview效果！
@@ -19,7 +23,7 @@ import java.util.Map;
  * Created by susan on 2018/6/25.
  */
 public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridViewAdapter.ViewHolder> {
-    private final Map<String, SingleBet.Rate> concedeMap;
+    private final LinkedHashMap<String, SingleBet.Rate> concedeMap;
     private final ScoreFragment fragment;
     private final String[] titleArray;
     private Context mContext;
@@ -38,7 +42,7 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
     }
 
 
-    public RecyclerGridViewAdapter(ScoreFragment fragment, Context mContext, Map<String, SingleBet.Rate> concedeMap, String[] titleArray) {
+    public RecyclerGridViewAdapter(ScoreFragment fragment, Context mContext, LinkedHashMap<String, SingleBet.Rate> concedeMap, String[] titleArray) {
         this.titleArray = titleArray;
         this.fragment = fragment;
         this.mContext = mContext;
@@ -55,6 +59,7 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
+
         if (viewHolder == null) {
             return;
         }
@@ -62,12 +67,14 @@ public class RecyclerGridViewAdapter extends RecyclerView.Adapter<RecyclerGridVi
             itemOnClick(viewHolder);
             itemOnLongClick(viewHolder);
         }
-        if (null == concedeMap.get(i)) {
-            viewHolder.tv_score.setText(titleArray[i]);
+        String key = titleArray[i];
+        SingleBet.Rate rate = concedeMap.get(key);
+        if (null == rate) {
+            viewHolder.tv_score.setText(key);
         } else {
-//            viewHolder.tv_score.setText(concedeMap.get(i).getConcedeBet());
-//            viewHolder.tv_precent.setText(concedeMap.get(i).getPrecentMoney() + "");
-            viewHolder.et_oods.setText(concedeMap.get(i).getRawOdds() + "");
+            viewHolder.tv_score.setText(rate.getConcedeBet());
+            viewHolder.tv_precent.setText(rate.getPrecentMoney() + "");
+            viewHolder.et_oods.setText(rate.getRawOdds() + "");
         }
         viewHolder.et_oods.addTextChangedListener(fragment);
     }

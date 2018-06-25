@@ -2,6 +2,7 @@ package com.github.susan.lottery.lottery.logistic;
 
 import android.text.TextUtils;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.github.susan.lottery.lottery.logistic.Utils.LOST;
@@ -13,7 +14,7 @@ import static com.github.susan.lottery.lottery.logistic.Utils.WIN;
  */
 public class HalfGameBet extends OtherBet {
 
-    public HalfGameBet(Map<String, Double> scoreMap) {
+    public HalfGameBet(LinkedHashMap<String, Double> scoreMap) {
         super(GameType.HALFGAME, scoreMap, 0);
     }
 

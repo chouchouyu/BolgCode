@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.github.susan.lottery.lottery.logistic.ScoreBet;
 import com.github.susan.lottery.lottery.logistic.SingleBet;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -42,8 +43,7 @@ public class ScoreFragment extends Fragment implements TextWatcher {
     private RecyclerView recyclerView;
     private GridLayoutManager layoutManager;
 
-    private RecyclerGridViewAdapter adapter;
-    Map<String, SingleBet.Rate> concedeMap;
+    LinkedHashMap<String, SingleBet.Rate> concedeMap;
 
     public ScoreFragment() {
         // Required empty public constructor
@@ -59,9 +59,9 @@ public class ScoreFragment extends Fragment implements TextWatcher {
         recyclerView.setLayoutManager(layoutManager);
         concedeMap = new LinkedHashMap<>();
         for (String title : titleArray) {
-            concedeMap.put(title, 0);
+            concedeMap.put(title, null);
         }
-        adapter = new RecyclerGridViewAdapter(this, getContext(), concedeMap, titleArray);
+        RecyclerGridViewAdapter adapter = new RecyclerGridViewAdapter(this, getContext(), concedeMap, titleArray);
         recyclerView.setAdapter(adapter);
         return view;
     }
@@ -74,12 +74,18 @@ public class ScoreFragment extends Fragment implements TextWatcher {
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         Log.d(TAG, "onTextChanged->" + s);
-        Map<String, Double> scoreMap = new LinkedHashMap<>();
+        LinkedHashMap<String, Double> scoreMap = new LinkedHashMap<>();
 
         for (int i = 0; i < layoutManager.getChildCount(); i++) {
             View item = layoutManager.findViewByPosition(i);
+            if (null == item) {
+                return;
+            }
             TextView scoreText = item.findViewById(R.id.tv_score);
             EditText editText = item.findViewById(R.id.et_oods);
+//            if (null == scoreText || editText == null) {
+//                break;
+//            }
             String oods = editText.getText().toString();
             if (!TextUtils.isEmpty(oods)) {
                 scoreMap.put(scoreText.getText().toString(), Double.valueOf(oods));
@@ -87,8 +93,22 @@ public class ScoreFragment extends Fragment implements TextWatcher {
         }
 
         ScoreBet scoreBet = new ScoreBet(scoreMap, 0);
-        concedeMap = scoreBet.getConcedeMap();
-//        adapter.notifyDataSetChanged();
+        LinkedHashMap<String, SingleBet.Rate> tempMap = scoreBet.getConcedeMap();
+        LinkedHashMap<String, SingleBet.Rate> tempMap2 = scoreBet.getConcedeMap();
+        for (String title : tempMap.keySet()) {
+            Iterator<Map.Entry<String, SingleBet.Rate>> it = concedeMap.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry<String, SingleBet.Rate> entry = it.next();
+                if (TextUtils.equals(title, entry.getKey())) {
+                    SingleBet.Rate tempRate = tempMap.get(title);
+                    it.remove();
+                    tempMap2.put(entry.getKey(), tempRate);
+                }
+            }
+        }
+        concedeMap.putAll(tempMap2);
+        RecyclerGridViewAdapter adapter = new RecyclerGridViewAdapter(this, getContext(), concedeMap, titleArray);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.github.susan.lottery.lottery.logistic;
 
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -10,16 +11,16 @@ import java.util.Map;
 
 public abstract class OtherBet extends SingleBet {
 
-    public OtherBet(GameType gameType, Map<String, Double> scoreMap, int concedePoint) {
+    public OtherBet(GameType gameType, LinkedHashMap<String, Double> scoreMap, int concedePoint) {
         super(gameType, 0, 0, 0, scoreMap, concedePoint);
     }
 
-    private Map<String, Rate> concedeMap;
+    private LinkedHashMap<String, Rate> concedeMap;
 
     @Override
-    void calculate(double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap, int concedePoint) {
+    void calculate(double oddSuccess, double oddDraw, double oddFail, LinkedHashMap<String, Double> scoreMap, int concedePoint) {
         if (concedeMap == null) {
-            concedeMap = new HashMap<>();
+            concedeMap = new LinkedHashMap<>();
         } else {
             concedeMap.clear();
         }

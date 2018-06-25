@@ -1,6 +1,7 @@
 package com.github.susan.lottery.lottery.logistic;
 
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -16,7 +17,7 @@ public class VictoryBet extends SingleBet {
 
 
     @Override
-    void calculate(double oddSuccess, double oddDraw, double oddFail, Map<String, Double> scoreMap, int concedePoint) {
+    void calculate(double oddSuccess, double oddDraw, double oddFail, LinkedHashMap<String, Double> scoreMap, int concedePoint) {
         after(oddSuccess,oddDraw,oddFail,null);
     }
 }

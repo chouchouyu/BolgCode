@@ -50,8 +50,8 @@ public class Helper {
                 try {
                     String rawResponse = response.body().string();
                     JsonBean objeclt = JSON.parseObject(rawResponse, JsonBean.class);
-                    Map<String, LinkedHashMap<String, String>> rawMap = objeclt.getData();
-//                    Map<String, Map<String, OneDayInfoBean>> map = new TreeMap<>();
+                    LinkedHashMap<String, LinkedHashMap<String, String>> rawMap = objeclt.getData();
+//                    LinkedHashMap<String, LinkedHashMap<String, OneDayInfoBean>> map = new TreeMap<>();
 //
                     for (String key : rawMap.keySet()) {
                         LinkedHashMap<String, String> m = rawMap.get(key);
@@ -66,7 +66,7 @@ public class Helper {
                             oneDayInfoBean.getList().getSportteryWDL().getOdds().toString();//让
                         }
 
-//                        Map<String, OneDayInfoBean> m = new HashMap<>();
+//                        LinkedHashMap<String, OneDayInfoBean> m = new HashMap<>();
 
 
 //                        map.put(key, JSON.parseObject(rawMap.get(key), OneDayInfoBean.class));

@@ -8,6 +8,7 @@ import com.github.susan.lottery.lottery.logistic.OtherBet;
 import com.github.susan.lottery.lottery.logistic.Result;
 import com.github.susan.lottery.lottery.logistic.Utils;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.github.susan.lottery.lottery.logistic.Utils.COLON;
@@ -20,7 +21,7 @@ import static com.github.susan.lottery.lottery.logistic.Utils.TargetMoney;
 public class ScoreBet extends OtherBet {
 
 
-    public ScoreBet(Map<String, Double> scoreMap, int concedePoint) {
+    public ScoreBet(LinkedHashMap<String, Double> scoreMap, int concedePoint) {
         super(GameType.SCORE, scoreMap, concedePoint);
     }
 

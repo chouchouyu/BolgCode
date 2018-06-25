@@ -186,7 +186,7 @@ public class HalfGameFragment extends Fragment implements TextWatcher {
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        Map<String, ViewWrap> viewWrapMap = new LinkedHashMap<>();
+        LinkedHashMap<String, ViewWrap> viewWrapMap = new LinkedHashMap<>();
         ViewWrap winWin = new ViewWrap(tvWinWinMoneny, etWinWinOods);
         viewWrapMap.put(result[0], winWin);
         ViewWrap drawWin = new ViewWrap(tvDrawWinMoneny, etDrawWinOods);
@@ -209,13 +209,13 @@ public class HalfGameFragment extends Fragment implements TextWatcher {
         viewWrapMap.put(result[8], failFail);
 
 
-        Map<String, Double> halfGameMap = new LinkedHashMap<>();
+        LinkedHashMap<String, Double> halfGameMap = new LinkedHashMap<>();
         for (String key : viewWrapMap.keySet()) {
             halfGameMap.put(key, viewWrapMap.get(key).getOdds());
         }
         HalfGameBet halfGameBet = new HalfGameBet(halfGameMap);
 
-        Map<String, SingleBet.Rate> concedeMap = halfGameBet.getConcedeMap();
+        LinkedHashMap<String, SingleBet.Rate> concedeMap = halfGameBet.getConcedeMap();
         for (String keyConcedeMap : concedeMap.keySet()) {
             for (String keyViewWrapMap : viewWrapMap.keySet()) {
                 if (TextUtils.equals(keyConcedeMap, keyViewWrapMap)) {
@@ -227,11 +227,11 @@ public class HalfGameFragment extends Fragment implements TextWatcher {
         result(concedeMap);
     }
 
-    private void result(Map<String, SingleBet.Rate> concedeMap) {
+    private void result(LinkedHashMap<String, SingleBet.Rate> concedeMap) {
 
-        Map<String, SingleBet.Rate> winMap = new LinkedHashMap<>();
-        Map<String, SingleBet.Rate> drawMap = new LinkedHashMap<>();
-        Map<String, SingleBet.Rate> failMap = new LinkedHashMap<>();
+        LinkedHashMap<String, SingleBet.Rate> winMap = new LinkedHashMap<>();
+        LinkedHashMap<String, SingleBet.Rate> drawMap = new LinkedHashMap<>();
+        LinkedHashMap<String, SingleBet.Rate> failMap = new LinkedHashMap<>();
 
         ArrayList<Double> winOddsList = new ArrayList<Double>();
         ArrayList<Double> drawOddsList = new ArrayList<Double>();
@@ -308,7 +308,7 @@ public class HalfGameFragment extends Fragment implements TextWatcher {
 
     }
 
-    private SingleBet.Rate getRate(Map<String, SingleBet.Rate> map, Double[] array, boolean isMin) {
+    private SingleBet.Rate getRate(LinkedHashMap<String, SingleBet.Rate> map, Double[] array, boolean isMin) {
         Iterator winIt = map.values().iterator();
         while (winIt.hasNext()) {
             SingleBet.Rate val = (SingleBet.Rate) winIt.next();
