@@ -41,23 +41,14 @@ public class ObjectWrapper extends BaseWrapper implements Parcelable {
     public static final int TYPE_CLASS_TO_GET = 5;
 
     private long mTimeStamp;
+    private int mType;
 
     //only used here
     private Class<?> mClass;
 
-    private int mType;
 
-    public static final Parcelable.Creator<ObjectWrapper> CREATOR
-            = new Parcelable.Creator<ObjectWrapper>() {
-        public ObjectWrapper createFromParcel(Parcel in) {
-            ObjectWrapper objectWrapper = new ObjectWrapper();
-            objectWrapper.readFromParcel(in);
-            return objectWrapper;
-        }
-        public ObjectWrapper[] newArray(int size) {
-            return new ObjectWrapper[size];
-        }
-    };
+
+
 
     private ObjectWrapper() {}
 
@@ -86,6 +77,18 @@ public class ObjectWrapper extends BaseWrapper implements Parcelable {
         mTimeStamp = in.readLong();
         mType = in.readInt();
     }
+
+    public static final Parcelable.Creator<ObjectWrapper> CREATOR
+            = new Parcelable.Creator<ObjectWrapper>() {
+        public ObjectWrapper createFromParcel(Parcel in) {
+            ObjectWrapper objectWrapper = new ObjectWrapper();
+            objectWrapper.readFromParcel(in);
+            return objectWrapper;
+        }
+        public ObjectWrapper[] newArray(int size) {
+            return new ObjectWrapper[size];
+        }
+    };
 
     public long getTimeStamp() {
         return mTimeStamp;

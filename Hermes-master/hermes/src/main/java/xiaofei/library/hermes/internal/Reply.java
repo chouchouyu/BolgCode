@@ -43,6 +43,10 @@ public class Reply implements Parcelable {
 
     private Object mResult;
 
+    private Reply() {
+
+    }
+
     public static final Parcelable.Creator<Reply> CREATOR
             = new Parcelable.Creator<Reply>() {
         public Reply createFromParcel(Parcel in) {
@@ -87,9 +91,7 @@ public class Reply implements Parcelable {
         }
     }
 
-    private Reply() {
 
-    }
 
     public Reply(ParameterWrapper parameterWrapper) {
         try {

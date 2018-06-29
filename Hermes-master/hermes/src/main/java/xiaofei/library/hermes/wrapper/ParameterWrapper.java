@@ -36,6 +36,16 @@ public class ParameterWrapper extends BaseWrapper implements Parcelable {
     //only used here.
     private Class<?> mClass;
 
+    private ParameterWrapper() {
+
+    }
+
+    public ParameterWrapper(Class<?> clazz, Object object) throws HermesException {
+        mClass = clazz;
+        setName(!clazz.isAnnotationPresent(ClassId.class), TypeUtils.getClassId(clazz));
+        mData = CodeUtils.encode(object);
+    }
+
     public static final Parcelable.Creator<ParameterWrapper> CREATOR
             = new Parcelable.Creator<ParameterWrapper>() {
         public ParameterWrapper createFromParcel(Parcel in) {
@@ -48,15 +58,9 @@ public class ParameterWrapper extends BaseWrapper implements Parcelable {
         }
     };
 
-    private ParameterWrapper() {
 
-    }
 
-    public ParameterWrapper(Class<?> clazz, Object object) throws HermesException {
-        mClass = clazz;
-        setName(!clazz.isAnnotationPresent(ClassId.class), TypeUtils.getClassId(clazz));
-        mData = CodeUtils.encode(object);
-    }
+
 
     public ParameterWrapper(Object object) throws HermesException{
         if (object == null) {

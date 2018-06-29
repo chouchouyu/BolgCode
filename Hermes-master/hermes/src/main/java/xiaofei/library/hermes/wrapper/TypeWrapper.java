@@ -29,6 +29,15 @@ import xiaofei.library.hermes.util.TypeUtils;
  */
 public class TypeWrapper extends BaseWrapper implements Parcelable {
 
+    private TypeWrapper() {
+
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        super.writeToParcel(parcel, flags);
+    }
+
     public static final Parcelable.Creator<TypeWrapper> CREATOR
             = new Parcelable.Creator<TypeWrapper>() {
         public TypeWrapper createFromParcel(Parcel in) {
@@ -41,9 +50,7 @@ public class TypeWrapper extends BaseWrapper implements Parcelable {
         }
     };
 
-    private TypeWrapper() {
 
-    }
 
     public TypeWrapper(Class<?> clazz) {
         setName(!clazz.isAnnotationPresent(ClassId.class), TypeUtils.getClassId(clazz));
@@ -54,10 +61,7 @@ public class TypeWrapper extends BaseWrapper implements Parcelable {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int flags) {
-        super.writeToParcel(parcel, flags);
-    }
+
 
     public void readFromParcel(Parcel in) {
         super.readFromParcel(in);
