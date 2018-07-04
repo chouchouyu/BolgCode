@@ -125,4 +125,5 @@ public class TypeCenter {
             mAnnotatedClasses.putIfAbsent(className, clazz);
         }
     }
+
 }

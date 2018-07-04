@@ -59,7 +59,18 @@ public abstract class Sender {
                 classes) {
             if (clazz.isInterface()) {
                 TYPE_CENTER.register(clazz);
-                registerCallbackMethodParameterType(clazz);
+                registerCallbackMethodParameterTypes(clazz);
+            }
+        }
+        TYPE_CENTER.register(method.getReturnType());
+    }
+
+    private void registerCallbackMethodParameterTypes(Class<?> clazz) {
+        Method[] methods = clazz.getMethods();
+        for (Method method : methods) {
+            Class<?>[] parameterTypes = method.getParameterTypes();
+            for (Class<?> parameterType : parameterTypes) {
+                TYPE_CENTER.register(parameterType);
             }
         }
     }
